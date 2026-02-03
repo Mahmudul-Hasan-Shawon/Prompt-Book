@@ -1,172 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glassmorphism UI Manager</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>UI Design Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { font-family: 'Poppins', sans-serif; }
-        body { 
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        * {
+            font-family: 'Poppins', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%);
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
         }
-        
+
         /* Ambient light effects */
         .light-effect {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
+            filter: blur(100px);
+            opacity: 0.2;
             z-index: 0;
             pointer-events: none;
         }
+
         .light-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(179, 157, 219, 0.7) 0%, rgba(179, 157, 219, 0) 70%);
-            top: -100px;
-            left: -200px;
-        }
-        .light-2 {
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(163, 218, 194, 0.6) 0%, rgba(163, 218, 194, 0) 70%);
-            bottom: -100px;
-            right: -100px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
         }
-        .light-3 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, rgba(147, 197, 253, 0) 70%);
-            top: 50%;
-            left: 70%;
+
+        .light-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+            bottom: -50px;
+            right: -50px;
         }
-        
-        /* Glassmorphism effects */
+
+        /* Glassmorphism */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.72);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.36);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.04),
-                0 4px 12px rgba(0, 0, 0, 0.03),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.78);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 
-                0 12px 40px rgba(0, 0, 0, 0.03),
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.04),
                 0 2px 8px rgba(0, 0, 0, 0.02),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
-            position: relative;
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
-        
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                rgba(255, 255, 255, 0) 0%, 
-                rgba(255, 255, 255, 0.8) 50%, 
-                rgba(255, 255, 255, 0) 100%);
-            z-index: 1;
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.03),
+                0 1px 4px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .glass-card:hover {
-            transform: translateY(-12px) scale(1.01);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 
-                0 24px 80px rgba(0, 0, 0, 0.08),
-                0 8px 24px rgba(0, 0, 0, 0.04),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow:
+                0 12px 32px rgba(0, 0, 0, 0.06),
+                0 4px 12px rgba(0, 0, 0, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
-        
-        /* Smooth animations */
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
+
+        /* Compact buttons */
+        .btn-compact {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgb(255, 255, 255);
+            backdrop-filter: blur(10px);
         }
-        
-        @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px) scale(0.95); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-            }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
         }
-        
-        .slide-in {
-            animation: slideIn 0.4s ease-out forwards;
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
         }
-        
-        @keyframes slideIn {
-            from { 
-                opacity: 0; 
-                transform: translateX(-20px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateX(0); 
-            }
+
+        /* Compact inputs */
+        .input-compact {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease;
         }
-        
-        /* Button animations */
-        .btn-glow {
-            position: relative;
-            overflow: hidden;
+
+        .input-compact:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            background: rgba(255, 255, 255, 0.9);
         }
-        
-        .btn-glow::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.4), 
-                transparent);
-            transition: 0.5s;
-        }
-        
-        .btn-glow:hover::before {
-            left: 100%;
-        }
-        
+
         /* Toggle switch */
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 32px;
+            width: 52px;
+            height: 28px;
         }
-        
+
         .toggle-switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-        
+
         .toggle-slider {
             position: absolute;
             cursor: pointer;
@@ -174,534 +146,1112 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(203, 213, 225, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            transition: .4s;
+            background: rgba(156, 163, 175, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            transition: .3s;
             border-radius: 34px;
         }
-        
+
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 24px;
-            width: 24px;
-            left: 4px;
+            height: 20px;
+            width: 20px;
+            left: 3px;
             bottom: 3px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            transition: .4s;
+            background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+            transition: .3s;
             border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
-        input:checked + .toggle-slider {
-            background: rgba(99, 102, 241, 0.2);
-            border-color: rgba(99, 102, 241, 0.3);
+
+        input:checked+.toggle-slider {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.3);
         }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-            background: linear-gradient(135deg, #10b981, #34d399);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(24px);
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
         }
-        
-        /* Loading spinner */
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid rgba(99, 102, 241, 0.1);
-            border-radius: 50%;
-            border-top-color: #6366f1;
-            animation: spin 1s ease-in-out infinite;
+
+        /* Custom dropdown */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+
+        .dropdown-trigger {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
         }
-        
-        /* Floating action button */
-        .floating-btn {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 12px 24px;
-            font-weight: 500;
-            box-shadow: 
-                0 10px 30px rgba(99, 102, 241, 0.3),
-                0 4px 12px rgba(99, 102, 241, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+        .dropdown-trigger:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 50;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .floating-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 15px 40px rgba(99, 102, 241, 0.4),
-                0 6px 16px rgba(99, 102, 241, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-        
-        .floating-btn:active {
+
+        .dropdown-content.show {
+            opacity: 1;
             transform: translateY(0);
+            visibility: visible;
         }
-        
-        /* Copy button animation */
-        .copy-btn {
+
+        .dropdown-option {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-option:hover {
+            background: rgba(139, 92, 246, 0.08);
+        }
+
+        .dropdown-option.selected {
+            background: rgba(139, 92, 246, 0.12);
+            color: #7c3aed;
+            font-weight: 500;
+        }
+
+        /* Custom loader - From Uiverse.io by andrew-manzyk */
+        .loader {
+            --color-one: #ffbf48;
+            --color-two: #be4a1d;
+            --color-three: #ffbf4780;
+            --color-four: #bf4a1d80;
+            --color-five: #ffbf4740;
+            --time-animation: 2s;
+            --size: 1;
             position: relative;
-            overflow: hidden;
+            border-radius: 50%;
+            transform: scale(var(--size));
+            box-shadow:
+                0 0 25px 0 var(--color-three),
+                0 20px 50px 0 var(--color-four);
+            animation: colorize calc(var(--time-animation) * 3) ease-in-out infinite;
+            margin: 0 auto;
         }
-        
-        .copy-btn.copied::after {
-            content: '✓ Copied!';
+
+        .loader::before {
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #10b981, #34d399);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border-top: solid 1px var(--color-one);
+            border-bottom: solid 1px var(--color-two);
+            background: linear-gradient(180deg, var(--color-five), var(--color-four));
+            box-shadow:
+                inset 0 10px 10px 0 var(--color-three),
+                inset 0 -10px 10px 0 var(--color-four);
+        }
+
+        .loader .box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(180deg,
+                    var(--color-one) 30%,
+                    var(--color-two) 70%);
+            mask: url(#clipping);
+            -webkit-mask: url(#clipping);
+        }
+
+        .loader svg {
+            position: absolute;
+        }
+
+        .loader svg #clipping {
+            filter: contrast(15);
+            animation: roundness calc(var(--time-animation) / 2) linear infinite;
+        }
+
+        .loader svg #clipping polygon {
+            filter: blur(7px);
+        }
+
+        .loader svg #clipping polygon:nth-child(1) {
+            transform-origin: 75% 25%;
+            transform: rotate(90deg);
+        }
+
+        .loader svg #clipping polygon:nth-child(2) {
+            transform-origin: 50% 50%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+        }
+
+        .loader svg #clipping polygon:nth-child(3) {
+            transform-origin: 50% 60%;
+            animation: rotation var(--time-animation) linear infinite;
+            animation-delay: calc(var(--time-animation) / -3);
+        }
+
+        .loader svg #clipping polygon:nth-child(4) {
+            transform-origin: 40% 40%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+        }
+
+        .loader svg #clipping polygon:nth-child(5) {
+            transform-origin: 40% 40%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+            animation-delay: calc(var(--time-animation) / -2);
+        }
+
+        .loader svg #clipping polygon:nth-child(6) {
+            transform-origin: 60% 40%;
+            animation: rotation var(--time-animation) linear infinite;
+        }
+
+        .loader svg #clipping polygon:nth-child(7) {
+            transform-origin: 60% 40%;
+            animation: rotation var(--time-animation) linear infinite;
+            animation-delay: calc(var(--time-animation) / -1.5);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes roundness {
+            0% {
+                filter: contrast(15);
+            }
+
+            20% {
+                filter: contrast(3);
+            }
+
+            40% {
+                filter: contrast(3);
+            }
+
+            60% {
+                filter: contrast(15);
+            }
+
+            100% {
+                filter: contrast(15);
+            }
+        }
+
+        @keyframes colorize {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+
+            20% {
+                filter: hue-rotate(-30deg);
+            }
+
+            40% {
+                filter: hue-rotate(-60deg);
+            }
+
+            60% {
+                filter: hue-rotate(-90deg);
+            }
+
+            80% {
+                filter: hue-rotate(-45deg);
+            }
+
+            100% {
+                filter: hue-rotate(0deg);
+            }
+        }
+
+        /* Popup overlay */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 500;
-            font-size: 0.875rem;
-            border-radius: 12px;
-            animation: fadeOut 1.2s ease forwards;
-        }
-        
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            70% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        
-        /* Action icons with smooth reveal */
-        .action-icons {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: flex;
-            gap: 8px;
+            z-index: 100;
             opacity: 0;
-            transform: translateY(-10px);
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+
+        /* Action icons */
+        .action-icons {
+            background: white;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transform: translateY(-8px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .glass-card:hover .action-icons {
             opacity: 1;
             transform: translateY(0);
         }
-        
-        /* Image container with gradient overlay */
-        .image-container {
+
+        /* Compact stats */
+        .stat-item {
+            padding: 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+
+
+        /* Simple Custom Scrollbar */
+        /* Minimalist auto-hide scrollbar */
+
+        /* Hide scrollbar completely for all elements */
+
+        /* For Webkit browsers (Chrome, Edge, Safari) */
+
+
+        /* Scrollbar base */
+        body {
+            overflow: auto;
+        }
+
+        /* Webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+            /* Hide track */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        /* Optional: slightly darker on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.7);
+        }
+
+
+
+
+
+        /* Thin scrollbar */
+        .thin-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        .thin-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 10px;
+        }
+
+        .thin-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+        }
+
+        .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.5);
+        }
+
+        /* Fade animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Compact badge */
+        .badge-compact {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Copy button feedback */
+        .copy-btn {
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
         }
-        
-        .image-container::after {
-            content: '';
+
+        .copy-btn.copied::after {
+            content: 'Copied!';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to bottom, 
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.05) 100%);
-            pointer-events: none;
-        }
-        
-        /* Custom scrollbar */
-        .scrollbar-thin::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.02);
-            border-radius: 10px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #a5b4fc, #c4b5fd);
-            border-radius: 10px;
-            opacity: 0.6;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #818cf8, #a78bfa);
-            opacity: 0.8;
-        }
-        
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Badge styles */
-        .category-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
+            background: rgba(34, 197, 94, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.025em;
-            text-transform: uppercase;
-            backdrop-filter: blur(10px);
+            font-weight: 500;
+            border-radius: 10px;
+            animation: fadeOut 1.2s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Modal */
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(24px);
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.04),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 480px;
+            width: 90%;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        /* Modal animation */
-        .modal-enter {
-            animation: modalEnter 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
         }
-        
-        @keyframes modalEnter {
-            from { 
-                opacity: 0; 
-                transform: scale(0.95) translateY(-20px); 
+    </style>
+    <style>
+        .copy-btn[data-copied="true"] {
+            background-color: rgb(240, 253, 244) !important;
+            color: rgb(22, 163, 74) !important;
+            border-color: rgb(187, 247, 208) !important;
+            transform: scale(1.05);
+        }
+
+        /* Animation keyframes in Tailwind-like way */
+        @keyframes pulse-subtle {
+
+            0%,
+            100% {
+                transform: scale(1);
             }
-            to { 
-                opacity: 1; 
-                transform: scale(1) translateY(0); 
+
+            50% {
+                transform: scale(1.05);
             }
         }
-        
-        /* Pulse animation for stats */
-        .pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        /* Shimmer effect for loading */
-        .shimmer {
-            background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.6) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+
+        .copy-btn[data-copied="true"] {
+            animation: pulse-subtle 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <!-- Ambient light effects -->
+
+<body class="p-4 md:p-6 ">
+    <!-- Ambient lights -->
     <div class="light-effect light-1"></div>
     <div class="light-effect light-2"></div>
-    <div class="light-effect light-3"></div>
-    
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 hidden">
-        <div class="glass-panel p-8 rounded-2xl flex flex-col items-center">
-            <div class="spinner mb-6"></div>
-            <p class="text-gray-700 font-medium">Loading your components...</p>
-            <p class="text-gray-500 text-sm mt-2">Fetching data from Google Sheets</p>
+
+    <!-- Loading Popup -->
+    <div id="loadingPopup" class="popup-overlay">
+        <div class="flex flex-col items-center justify-center p-8">
+            <div class="loader" style="--size: 0.8;">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <defs>
+                        <mask id="clipping">
+                            <polygon points="0,0 100,0 100,100 0,100" fill="black"></polygon>
+                            <polygon points="25,25 75,25 50,75" fill="white"></polygon>
+                            <polygon points="50,25 75,75 25,75" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                        </mask>
+                    </defs>
+                </svg>
+                <div class="box"></div>
+            </div>
+            <p class="text-gray-700 font-medium mt-6 text-sm">Loading designs...</p>
+            <p class="text-gray-500 text-xs mt-2">Fetching from Google Sheets</p>
         </div>
     </div>
-    
+
+    <!-- Confirm Popup -->
+    <div id="confirmPopup" class="popup-overlay">
+        <div class="popup-content">
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2" id="confirmTitle">Delete Design</h3>
+                <p class="text-gray-600 text-sm mb-6" id="confirmMessage">Are you sure you want to delete this design?
+                    This action cannot be undone.</p>
+                <div class="flex gap-3 justify-center">
+                    <button id="confirmCancel" class="btn-compact px-6 hover:bg-gray-100">Cancel</button>
+                    <button id="confirmDelete"
+                        class="btn-compact px-6 bg-red-500 text-white hover:bg-red-600 border-red-500">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Popup -->
+    <div id="messagePopup" class="popup-overlay">
+        <div class="popup-content">
+            <div class="flex items-start gap-3">
+                <div id="messageIcon" class="flex-shrink-0 mt-1"></div>
+                <div class="flex-1">
+                    <h3 class="font-semibold text-gray-800 text-sm" id="messageTitle"></h3>
+                    <p class="text-gray-600 text-xs mt-1" id="messageText"></p>
+                </div>
+                <button onclick="hidePopup('messagePopup')" class="text-gray-400 hover:text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
     <div class="max-w-7xl mx-auto relative z-10">
         <!-- Header -->
-        <header class="mb-12 fade-in">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div class="space-y-2">
-                    <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-2">Prompt Library</h1>
-                    <p class="text-gray-600 text-lg">A curated collection of beautiful UI components and prompts</p>
+        <header class="mb-8 fade-in">
+            <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="relative flex items-center justify-start h-24">
+                    <!-- Animated title -->
+                    <h1 class="text-4xl md:text-5xl font-bold">
+                        <span
+                            class="bg-gradient-to-r from-purple-600 via-pink-500 to-violet-600 bg-clip-text text-transparent animate-gradient-x">
+                            UI Prompt Library
+                        </span>
+                    </h1>
                 </div>
-                
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <!-- Action Toggle -->
-                    <div class="flex items-center gap-3 px-4 py-2 glass-panel rounded-2xl">
-                        <span class="text-sm font-medium text-gray-700">Edit Mode</span>
+
+
+                <style>
+                    @keyframes gradient-x {
+
+                        0%,
+                        100% {
+                            background-position: 0% 50%;
+                        }
+
+                        50% {
+                            background-position: 100% 50%;
+                        }
+                    }
+
+                    @keyframes float-slow {
+
+                        0%,
+                        100% {
+                            transform: translateY(0);
+                        }
+
+                        50% {
+                            transform: translateY(-3px);
+                        }
+                    }
+
+                    .animate-gradient-x {
+                        background-size: 200% auto;
+                        animation: gradient-x 3s ease infinite;
+                    }
+
+                    .animate-float-slow {
+                        animation: float-slow 4s ease-in-out infinite;
+                    }
+                </style>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- Edit Mode Toggle -->
+                    <div class="flex items-center gap-2 px-3 py-2 glass-panel rounded-2xl">
+                        <span class="text-gray-700 text-sm font-medium">Edit Mode</span>
                         <label class="toggle-switch">
                             <input type="checkbox" id="actionToggle">
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
-                    
+
                     <!-- Action Buttons -->
-                    <div class="flex gap-3">
-                        <button id="refreshBtn" class="floating-btn flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                    <div class="flex gap-2">
+                        <button id="refreshBtn" class="btn-compact flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                    clip-rule="evenodd" />
                             </svg>
                             Refresh
                         </button>
-                        <button id="addNewBtn" class="floating-btn flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        <button id="addNewBtn" class="btn-compact btn-primary flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
                             </svg>
                             Add New
                         </button>
                     </div>
                 </div>
             </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10 fade-in" style="animation-delay: 0.1s">
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Total Components</p>
+                            <h3 id="totalCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-purple-500 bg-purple-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Active designs in your library</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Categories</p>
+                            <h3 id="categoryCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-emerald-500 bg-emerald-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Different UI categories</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Tags</p>
+                            <h3 id="tagCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-blue-500 bg-blue-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Unique design tags</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Last Updated</p>
+                            <h3 id="lastUpdated" class="text-xl font-bold text-gray-800">-</h3>
+                        </div>
+                        <div class="text-amber-500 bg-amber-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Data synchronization</p>
+                    </div>
+                </div>
+            </div>
+
         </header>
-        
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10 fade-in" style="animation-delay: 0.1s">
-            <div class="glass-panel p-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium mb-1">Total Components</p>
-                        <h3 id="totalCount" class="text-3xl font-bold text-gray-800">0</h3>
-                    </div>
-                    <div class="text-purple-500 bg-purple-50 p-3 rounded-2xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <p class="text-xs text-gray-500">Active designs in your library</p>
-                </div>
-            </div>
-            
-            <div class="glass-panel p-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium mb-1">Categories</p>
-                        <h3 id="categoryCount" class="text-3xl font-bold text-gray-800">0</h3>
-                    </div>
-                    <div class="text-emerald-500 bg-emerald-50 p-3 rounded-2xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <p class="text-xs text-gray-500">Different UI categories</p>
-                </div>
-            </div>
-            
-            <div class="glass-panel p-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium mb-1">Tags</p>
-                        <h3 id="tagCount" class="text-3xl font-bold text-gray-800">0</h3>
-                    </div>
-                    <div class="text-blue-500 bg-blue-50 p-3 rounded-2xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <p class="text-xs text-gray-500">Unique design tags</p>
-                </div>
-            </div>
-            
-            <div class="glass-panel p-5">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm font-medium mb-1">Last Updated</p>
-                        <h3 id="lastUpdated" class="text-xl font-bold text-gray-800">-</h3>
-                    </div>
-                    <div class="text-amber-500 bg-amber-50 p-3 rounded-2xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <p class="text-xs text-gray-500">Data synchronization</p>
-                </div>
-            </div>
-        </div>
-        
+
         <!-- Main Content -->
-        <div class="glass-panel p-6 md:p-8 mb-10 fade-in" style="animation-delay: 0.2s">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Design Components</h2>
-                    <p class="text-gray-600">Browse and manage your UI design collection</p>
-                </div>
-                
-                <!-- Search Bar -->
-                <div class="relative w-full md:w-auto md:min-w-[400px]">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                        </svg>
+        <div class="glass-panel p-4 md:p-6 mb-6 fade-in" style="animation-delay: 0.1s">
+
+            <!-- Search -->
+
+            <div class="relative pb-4 mb-4">
+                <!-- Main search container -->
+                <div class="relative rounded-full overflow-hidden animate-border-glow">
+                    <!-- Smooth gradient animation in background -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent animate-gradient-flow opacity-20">
                     </div>
-                    <input type="text" id="searchInput" class="w-full pl-12 pr-4 py-4 glass-card focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent" placeholder="Search designs, categories, or tags...">
+
+                    <!-- Glass effect overlay -->
+                    <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
+
+                    <!-- Search icon container -->
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                        <div class="relative">
+                            <!-- Icon glow ring -->
+                            <div class="absolute -inset-2 rounded-full blur-md animate-icon-pulse"></div>
+                            <!-- Search icon -->
+                            <svg class="relative h-5 w-5 animate-icon-glow" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Input field -->
+                    <input type="text" id="searchInput"
+                        class="relative w-full pl-12 pr-6 py-3.5 bg-transparent rounded-full focus:outline-none text-gray-800 placeholder-gray-500 transition-all duration-300"
+                        placeholder="Search prompts...">
                 </div>
             </div>
-            
-            <!-- Component Cards Grid -->
-            <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <style>
+                @keyframes gradient-flow {
+                    0% {
+                        background: linear-gradient(90deg,
+                                transparent 0%,
+                                rgba(96, 165, 250, 0.3) 25%,
+                                rgba(167, 139, 250, 0.3) 50%,
+                                rgba(248, 113, 113, 0.3) 75%,
+                                transparent 100%);
+                        background-position: 200% 0;
+                    }
+
+                    50% {
+                        background: linear-gradient(90deg,
+                                transparent 0%,
+                                rgba(248, 113, 113, 0.3) 25%,
+                                rgba(96, 165, 250, 0.3) 50%,
+                                rgba(167, 139, 250, 0.3) 75%,
+                                transparent 100%);
+                        background-position: -200% 0;
+                    }
+
+                    100% {
+                        background: linear-gradient(90deg,
+                                transparent 0%,
+                                rgba(167, 139, 250, 0.3) 25%,
+                                rgba(248, 113, 113, 0.3) 50%,
+                                rgba(96, 165, 250, 0.3) 75%,
+                                transparent 100%);
+                        background-position: 200% 0;
+                    }
+                }
+
+                @keyframes border-glow {
+                    0% {
+                        box-shadow:
+                            0 0 0 2px rgba(96, 165, 250, 0.2),
+                            0 0 20px rgba(96, 165, 250, 0.15),
+                            0 0 40px rgba(96, 165, 250, 0.1),
+                            inset 0 0 20px rgba(255, 255, 255, 0.5);
+                    }
+
+                    33% {
+                        box-shadow:
+                            0 0 0 2px rgba(167, 139, 250, 0.2),
+                            0 0 20px rgba(167, 139, 250, 0.15),
+                            0 0 40px rgba(167, 139, 250, 0.1),
+                            inset 0 0 20px rgba(255, 255, 255, 0.5);
+                    }
+
+                    66% {
+                        box-shadow:
+                            0 0 0 2px rgba(248, 113, 113, 0.2),
+                            0 0 20px rgba(248, 113, 113, 0.15),
+                            0 0 40px rgba(248, 113, 113, 0.1),
+                            inset 0 0 20px rgba(255, 255, 255, 0.5);
+                    }
+
+                    100% {
+                        box-shadow:
+                            0 0 0 2px rgba(96, 165, 250, 0.2),
+                            0 0 20px rgba(96, 165, 250, 0.15),
+                            0 0 40px rgba(96, 165, 250, 0.1),
+                            inset 0 0 20px rgba(255, 255, 255, 0.5);
+                    }
+                }
+
+                @keyframes icon-pulse {
+
+                    0%,
+                    100% {
+                        background: rgba(96, 165, 250, 0.15);
+                        transform: scale(0.95);
+                    }
+
+                    33% {
+                        background: rgba(167, 139, 250, 0.15);
+                        transform: scale(1.05);
+                    }
+
+                    66% {
+                        background: rgba(248, 113, 113, 0.15);
+                        transform: scale(1.05);
+                    }
+                }
+
+                @keyframes icon-glow {
+                    0% {
+                        filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+                        color: rgba(96, 165, 250, 0.9);
+                    }
+
+                    33% {
+                        filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.6));
+                        color: rgba(167, 139, 250, 0.9);
+                    }
+
+                    66% {
+                        filter: drop-shadow(0 0 4px rgba(248, 113, 113, 0.6));
+                        color: rgba(248, 113, 113, 0.9);
+                    }
+
+                    100% {
+                        filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+                        color: rgba(96, 165, 250, 0.9);
+                    }
+                }
+
+                .animate-gradient-flow {
+                    animation: gradient-flow 10s linear infinite;
+                    background-size: 300% 100%;
+                }
+
+                .animate-border-glow {
+                    animation: border-glow 8s ease-in-out infinite;
+                }
+
+                .animate-icon-pulse {
+                    animation: icon-pulse 8s ease-in-out infinite;
+                }
+
+                .animate-icon-glow {
+                    animation: icon-glow 8s ease-in-out infinite;
+                }
+
+                /* Focus effects */
+                #searchInput:focus {
+                    background-color: rgba(255, 255, 255, 0.4);
+                }
+
+                #searchInput:focus+.animate-border-glow {
+                    animation-duration: 4s;
+                    animation-timing-function: ease-out;
+                }
+
+                /* Hover effects */
+                .animate-border-glow:hover {
+                    animation-duration: 5s;
+                }
+
+                /* Placeholder styling */
+                #searchInput::placeholder {
+                    color: rgba(107, 114, 128, 0.7);
+                    transition: all 0.3s ease;
+                }
+
+                #searchInput:focus::placeholder {
+                    color: rgba(107, 114, 128, 0.4);
+                    transform: translateX(5px);
+                }
+
+                /* Smooth transitions for all animated elements */
+                .animate-gradient-flow,
+                .animate-border-glow,
+                .animate-icon-pulse,
+                .animate-icon-glow {
+                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                /* Subtle pulse on hover */
+                #searchInput:hover~.animate-gradient-flow {
+                    opacity: 0.3;
+                }
+            </style>
+
+
+
+            <!-- Cards Grid -->
+            <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Loading skeleton -->
                 <div class="col-span-full">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="glass-card p-6">
-                            <div class="shimmer h-6 w-3/4 rounded-lg mb-4"></div>
-                            <div class="shimmer h-4 w-1/2 rounded-lg mb-6"></div>
-                            <div class="shimmer h-48 rounded-2xl mb-4"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="glass-card p-4 animate-pulse">
+                            <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                            <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                            <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
                             <div class="flex justify-between">
-                                <div class="shimmer h-8 w-24 rounded-full"></div>
-                                <div class="shimmer h-8 w-8 rounded-full"></div>
+                                <div class="h-6 bg-gray-200 rounded w-20"></div>
+                                <div class="h-6 bg-gray-200 rounded w-6"></div>
                             </div>
                         </div>
-                        <div class="glass-card p-6">
-                            <div class="shimmer h-6 w-3/4 rounded-lg mb-4"></div>
-                            <div class="shimmer h-4 w-1/2 rounded-lg mb-6"></div>
-                            <div class="shimmer h-48 rounded-2xl mb-4"></div>
+                        <div class="glass-card p-4 animate-pulse">
+                            <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                            <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                            <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
                             <div class="flex justify-between">
-                                <div class="shimmer h-8 w-24 rounded-full"></div>
-                                <div class="shimmer h-8 w-8 rounded-full"></div>
+                                <div class="h-6 bg-gray-200 rounded w-20"></div>
+                                <div class="h-6 bg-gray-200 rounded w-6"></div>
                             </div>
                         </div>
-                        <div class="glass-card p-6">
-                            <div class="shimmer h-6 w-3/4 rounded-lg mb-4"></div>
-                            <div class="shimmer h-4 w-1/2 rounded-lg mb-6"></div>
-                            <div class="shimmer h-48 rounded-2xl mb-4"></div>
+                        <div class="glass-card p-4 animate-pulse">
+                            <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                            <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                            <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
                             <div class="flex justify-between">
-                                <div class="shimmer h-8 w-24 rounded-full"></div>
-                                <div class="shimmer h-8 w-8 rounded-full"></div>
+                                <div class="h-6 bg-gray-200 rounded w-20"></div>
+                                <div class="h-6 bg-gray-200 rounded w-6"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Empty State -->
-            <div id="emptyState" class="hidden col-span-full py-16 text-center">
-                <div class="text-gray-300 mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            <div id="emptyState" class="hidden col-span-full py-12 text-center">
+                <div class="text-gray-300 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-700 mb-3">No designs found</h3>
-                <p class="text-gray-500 mb-8 max-w-md mx-auto">Try adjusting your search or add your first design component</p>
-                <button id="addFirstBtn" class="floating-btn px-8 py-3 text-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clip-rule="evenodd" />
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">No designs found</h3>
+                <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Try adjusting your search or add your first
+                    design component</p>
+                <button id="addFirstBtn" class="btn-compact btn-primary px-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
+                            clip-rule="evenodd" />
                     </svg>
-                    Add Your First Design
+                    Add Design
                 </button>
             </div>
         </div>
     </div>
-    
+
     <!-- Modal -->
-    <div id="componentModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4 z-50 hidden">
-        <div class="glass-panel max-w-2xl w-full p-8 rounded-2xl transform modal-enter" id="modalContent">
-            <div class="flex justify-between items-center mb-8">
+    <div id="componentModal" class="popup-overlay">
+        <div class="modal-content p-6">
+            <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h3 class="text-2xl font-bold text-gray-800" id="modalTitle">Add New Design</h3>
-                    <p class="text-gray-600 text-sm mt-1">Create a new UI component design</p>
+                    <h3 class="text-lg font-semibold text-gray-800" id="modalTitle">Add Design</h3>
+                    <p class="text-gray-500 text-xs mt-1">Create a new UI component design</p>
                 </div>
-                <button id="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-xl hover:bg-gray-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <button onclick="hidePopup('componentModal')" class="p-2 rounded-full
+           text-gray-400
+           hover:bg-red-500
+           hover:text-white
+           transition-colors duration-200
+           focus:outline-none">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
+
             </div>
-            
-            <form id="componentForm" class="space-y-6">
+
+            <form id="componentForm" class="space-y-4">
                 <input type="hidden" id="componentId" value="new">
-                
+
                 <div>
-                    <label class="block text-gray-700 mb-3 font-medium">
-                        Design Prompt
-                        <span class="text-red-500 ml-1">*</span>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">
+                        Design Prompt <span class="text-red-500">*</span>
                     </label>
-                    <textarea id="promptInput" rows="4" class="w-full p-4 glass-card focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-2xl resize-none" placeholder="Describe your UI component design in detail..." required></textarea>
-                    <div class="flex justify-between items-center mt-3">
-                        <p class="text-xs text-gray-500">Be specific about colors, animations, and interactions</p>
-                        <button type="button" id="copyPromptBtn" class="text-sm text-purple-600 hover:text-purple-800 font-medium flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-purple-50 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    <textarea id="promptInput" rows="3" class="w-full input-compact"
+                        placeholder="Describe your UI component..." required></textarea>
+                    <div class="flex justify-between items-center mt-2">
+                        <p class="text-gray-500 text-xs">Be specific about your requirements</p>
+                        <button type="button" onclick="copyModalPrompt()" class="px-3 py-1.5 rounded-full
+           text-xs font-medium
+           text-purple-600 bg-purple-50
+           flex items-center gap-1
+           transition-all duration-300 ease-out
+           hover:bg-purple-100 hover:text-purple-800
+           focus:outline-none active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                             </svg>
-                            Copy Prompt
+                            <span>Copy</span>
                         </button>
+
+
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-gray-700 mb-3 font-medium">
-                            Category
-                            <span class="text-red-500 ml-1">*</span>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">
+                            Category <span class="text-red-500">*</span>
                         </label>
-                        <select id="categoryInput" class="w-full p-4 glass-card focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-2xl" required>
-                            <option value="">Select a category</option>
-                        </select>
+                        <div class="custom-dropdown">
+                            <div class="dropdown-trigger" onclick="toggleDropdown('categoryDropdown')">
+                                <span id="selectedCategory">Select Category</span>
+                                <svg class="h-4 w-4 text-gray-400 transition-transform" id="categoryArrow"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-content thin-scrollbar" id="categoryDropdown"></div>
+                            <input type="hidden" id="categoryInput" required>
+                        </div>
                     </div>
-                    
+
                     <div>
-                        <label class="block text-gray-700 mb-3 font-medium">
-                            Tag
-                            <span class="text-red-500 ml-1">*</span>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">
+                            Tag <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="tagInput" class="w-full p-4 glass-card focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-2xl" placeholder="Enter tag name" required>
+                        <input type="text" id="tagInput" class="w-full input-compact" placeholder="Enter tag" required>
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-gray-700 mb-3 font-medium">Image URL</label>
-                        <input type="text" id="imageUrlInput" class="w-full p-4 glass-card focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-2xl" placeholder="https://example.com/design-preview.png">
-                        <p class="text-xs text-gray-500 mt-2">Link to your design preview or screenshot</p>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Image URL</label>
+                        <input type="text" id="imageUrlInput" class="w-full input-compact"
+                            placeholder="https://example.com/preview.png">
+                        <p class="text-gray-500 text-xs mt-2">Optional preview image</p>
                     </div>
-                    
+
                     <div>
-                        <label class="block text-gray-700 mb-3 font-medium">Keywords</label>
-                        <input type="text" id="keywordsInput" class="w-full p-4 glass-card focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-2xl" placeholder="modern, minimalist, glassmorphism, animation">
-                        <p class="text-xs text-gray-500 mt-2">Separate with commas for better organization</p>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Keywords</label>
+                        <input type="text" id="keywordsInput" class="w-full input-compact"
+                            placeholder="modern, minimalist, glassmorphism">
+                        <p class="text-gray-500 text-xs mt-2">Separate with commas</p>
                     </div>
                 </div>
-                
-                <!-- Image Preview -->
-                <div id="imagePreview" class="hidden">
-                    <label class="block text-gray-700 mb-3 font-medium">Preview</label>
-                    <div id="previewContainer" class="rounded-2xl overflow-hidden glass-card">
-                        <!-- Image will be loaded here -->
-                    </div>
-                </div>
-                
-                <div class="flex justify-end gap-4 pt-8 border-t border-gray-100">
-                    <button type="button" id="cancelBtn" class="px-8 py-3 text-gray-700 font-medium rounded-2xl hover:bg-gray-50 transition-colors duration-200">
+
+                <div class="flex justify-end gap-3 pt-6 border-t border-gray-100">
+                    <button type="button" onclick="hidePopup('componentModal')"
+                        class="btn-compact px-6 hover:bg-gray-100">
                         Cancel
                     </button>
-                    <button type="submit" id="saveBtn" class="floating-btn px-8 py-3 text-lg">
-                        <svg id="saveIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                        <span id="saveBtnText">Save Design</span>
+                    <button type="submit" class="btn-compact btn-primary px-6">
+                        Save Design
                     </button>
                 </div>
             </form>
-        </div>
-    </div>
-    
-    <!-- Notification Toast -->
-    <div id="notificationToast" class="fixed top-6 right-6 z-50 hidden">
-        <div class="glass-panel p-4 rounded-2xl shadow-xl">
-            <div class="flex items-center gap-3">
-                <div id="toastIcon" class="flex-shrink-0"></div>
-                <div>
-                    <p id="toastMessage" class="text-gray-800 font-medium"></p>
-                    <p id="toastDescription" class="text-gray-600 text-sm mt-1"></p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -710,36 +1260,38 @@
         let componentsData = [];
         let categoriesData = [];
         let showActions = false;
-        
+        let currentDeleteId = null;
+
         // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadData();
             setupEventListeners();
             setupToggleListener();
+            setupDropdowns();
         });
-        
+
         function loadData() {
-            showLoading(true);
+            showPopup('loadingPopup');
             google.script.run
                 .withSuccessHandler(handleData)
                 .withFailureHandler(handleError)
                 .getSheetData();
         }
-        
+
         function handleData(data) {
-            showLoading(false);
+            hidePopup('loadingPopup');
             if (data && data.components) {
                 componentsData = data.components;
                 categoriesData = data.categories || [];
-                
+
                 renderComponents(componentsData);
                 updateStats(data);
                 populateCategoryDropdown(data.components);
-                
+
                 // Show/hide empty state
                 const emptyState = document.getElementById('emptyState');
                 const componentsGrid = document.getElementById('componentsGrid');
-                
+
                 if (componentsData.length === 0) {
                     emptyState.classList.remove('hidden');
                     componentsGrid.classList.add('hidden');
@@ -749,136 +1301,138 @@
                 }
             }
         }
-        
+
         function handleError(error) {
-            showLoading(false);
-            showNotification('Failed to load data', error.message, 'error');
+            hidePopup('loadingPopup');
+            showMessage('Error', error.message, 'error');
         }
-        
+
         function renderComponents(components) {
             const grid = document.getElementById('componentsGrid');
             if (!grid) return;
-            
+
             if (!components || components.length === 0) {
                 grid.innerHTML = '';
                 return;
             }
-            
+
             let html = '';
-            components.forEach(function(component, index) {
+            components.forEach(function (component, index) {
                 const promptText = component.prompt || '';
-                const title = promptText.length > 100 ? promptText.substring(0, 100) + '...' : promptText;
+                const title = promptText.length > 80 ? promptText.substring(0, 80) + '...' : promptText;
                 const hasImage = component.imageUrl && component.imageUrl.startsWith('http');
-                
+
                 // Parse color classes
                 const tagColor = component.tagColor || 'bg-gray-100 text-gray-700';
                 const colorClasses = tagColor.split(' ');
                 const bgColor = colorClasses.find(cls => cls.startsWith('bg-')) || 'bg-gray-100';
                 const textColor = colorClasses.find(cls => cls.startsWith('text-')) || 'text-gray-700';
-                const borderColor = colorClasses.find(cls => cls.startsWith('border-')) || 'border-gray-200';
-                
-                html += 
-                    '<div class="glass-card p-6 fade-in relative" style="animation-delay: ' + (index * 0.05) + 's">' +
-                    
-                    // Category Badge
-                    '<div class="flex items-center justify-between mb-6">' +
-                    '<span class="category-badge ' + bgColor + ' ' + textColor + ' ' + borderColor + '">' + 
-                    (component.category || 'General') + 
+
+                html +=
+                    '<div class="glass-card p-4 fade-in relative" style="animation-delay: ' + (index * 0.03) + 's">' +
+
+                    // Category badge and copy button
+                    '<div class="flex items-center justify-between mb-4">' +
+                    '<span class="badge-compact ' + bgColor + ' ' + textColor + '">' +
+                    (component.category || 'General') +
                     '</span>' +
-                    
-                    // Copy Button (Always visible)
-                    '<button onclick="copyToClipboard(' + component.id + ')" class="copy-btn p-2 rounded-xl hover:bg-gray-50 transition-colors" title="Copy prompt">' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 hover:text-purple-600" viewBox="0 0 20 20" fill="currentColor">' +
-                    '<path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />' +
-                    '<path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />' +
-                    '</svg>' +
+
+                    // Copy button
+                    // In your component rendering code:
+                    '<button onclick="copyToClipboard(' + component.id + ')" ' +
+                    'class="copy-btn px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-300 ' +
+                    'bg-purple-50 text-purple-600 border-purple-100 ' +
+                    'hover:bg-purple-100 hover:border-purple-200 ' +
+                    'relative overflow-hidden group" ' +
+                    'title="Copy prompt">' +
+                    '<span class="copy-text block transition-all duration-300 ease-out">Copy</span>' +
+                    '<span class="copied-text absolute inset-0 flex items-center justify-center transition-all duration-300 ease-out opacity-0 transform -translate-y-full">Copied</span>' +
                     '</button>' +
                     '</div>' +
-                    
-                    // Component Title
-                    '<h3 class="text-lg font-semibold text-gray-800 mb-4 leading-relaxed">' + title + '</h3>' +
-                    
-                    // Image Preview
-                    '<div class="image-container mb-6">' +
-                    '<div class="rounded-2xl overflow-hidden h-48 flex items-center justify-center ' + (hasImage ? '' : 'bg-gradient-to-br from-gray-50 to-gray-100') + '">' +
-                    (hasImage ? 
-                        '<img src="' + component.imageUrl + '" alt="Design preview" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<div class=\\\'text-center p-6\\\'><svg xmlns=\\\'http://www.w3.org/2000/svg\\\' class=\\\'h-12 w-12 text-gray-300 mx-auto mb-3\\\' fill=\\\'none\\\' viewBox=\\\'0 0 24 24\\\' stroke=\\\'currentColor\\\'><path stroke-linecap=\\\'round\\\' stroke-linejoin=\\\'round\\\' stroke-width=\\\'1\\\' d=\\\'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\\\'/></svg><p class=\\\'text-sm text-gray-400\\\'>Preview unavailable</p></div>\';" />' :
-                        '<div class="text-center p-6">' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
+
+                    // Title
+                    '<h3 class="text-sm font-semibold text-gray-800 mb-3 leading-relaxed">' + title + '</h3>' +
+
+                    // Image preview
+                    '<div class="rounded-xl overflow-hidden h-48 mb-4 bg-gradient-to-br from-gray-50 to-gray-100">' +
+                    (hasImage ?
+                        '<img src="' + component.imageUrl + '" alt="Preview" class="w-full h-full object-cover" ' +
+                        'onload="this.style.opacity=1" ' +
+                        'onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<div class=\\\'h-full flex items-center justify-center\\\'><svg xmlns=\\\'http://www.w3.org/2000/svg\\\' class=\\\'h-8 w-8 text-gray-300\\\' fill=\\\'none\\\' viewBox=\\\'0 0 24 24\\\' stroke=\\\'currentColor\\\'><path stroke-linecap=\\\'round\\\' stroke-linejoin=\\\'round\\\' stroke-width=\\\'1\\\' d=\\\'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\\\'/></svg></div>\';" />' :
+                        '<div class="h-full flex items-center justify-center">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
                         '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />' +
                         '</svg>' +
-                        '<p class="text-sm text-gray-400">No preview image</p>' +
                         '</div>') +
                     '</div>' +
-                    '</div>' +
-                    
-                    // Action Icons (Hidden by default, shown when toggle is ON)
-                    '<div class="action-icons" id="actionIcons-' + component.id + '" style="opacity: 0; transform: translateY(-10px);">' +
-                    '<button onclick="editComponent(' + component.id + ')" class="p-2.5 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 transition-all duration-300 shadow-sm" title="Edit design">' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" viewBox="0 0 20 20" fill="currentColor">' +
+
+                    // Action icons (hidden by default)
+                    '<div class="action-icons" id="actionIcons-' + component.id + '">' +
+                    '<button onclick="editComponent(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Edit">' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">' +
                     '<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />' +
                     '</svg>' +
                     '</button>' +
-                    '<button onclick="deleteComponent(' + component.id + ')" class="p-2.5 rounded-xl bg-gradient-to-r from-red-50 to-red-100 hover:from-red-100 hover:to-red-200 transition-all duration-300 shadow-sm" title="Delete design">' +
-                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">' +
+                    '<button onclick="confirmDelete(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Delete">' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" viewBox="0 0 20 20" fill="currentColor">' +
                     '<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />' +
                     '</svg>' +
                     '</button>' +
                     '</div>' +
-                    
+
                     // Footer with tag
-                    '<div class="flex items-center justify-between pt-4 border-t border-gray-100">' +
-                    '<span class="text-sm font-medium text-gray-600">' + (component.tag || 'Untagged') + '</span>' +
-                    '<span class="text-xs text-gray-400">ID: ' + component.id + '</span>' +
+                    '<div class="flex items-center justify-between pt-3 border-t border-gray-100">' +
+                    '<span class="text-xs font-medium text-gray-600">' + (component.tag || 'Untagged') + '</span>' +
+                    '<span class="text-xs text-gray-400">#' + component.id + '</span>' +
                     '</div>' +
-                    
+
                     '</div>';
             });
-            
+
             grid.innerHTML = html;
-            
-            // Update action icons visibility based on toggle
+
+            // Update action icons visibility
             updateActionIconsVisibility();
         }
-        
+
         function updateStats(data) {
             document.getElementById('totalCount').textContent = data.components ? data.components.length : 0;
-            
+
             if (data.components) {
                 const categories = new Set();
                 const tags = new Set();
-                
-                data.components.forEach(function(c) {
+
+                data.components.forEach(function (c) {
                     if (c.category) categories.add(c.category);
                     if (c.tag) tags.add(c.tag);
                 });
-                
+
                 document.getElementById('categoryCount').textContent = categories.size;
                 document.getElementById('tagCount').textContent = tags.size;
             }
-            
+
             if (data.lastUpdated) {
                 const date = new Date(data.lastUpdated);
-                document.getElementById('lastUpdated').textContent = 
-                    date.toLocaleTimeString([], { 
-                        hour: '2-digit', 
+                document.getElementById('lastUpdated').textContent =
+                    date.toLocaleTimeString([], {
+                        hour: '2-digit',
                         minute: '2-digit',
-                        hour12: true 
+                        hour12: true
                     });
             }
         }
-        
+
         function setupEventListeners() {
-            // Search
+            // Search with debounce
             const searchInput = document.getElementById('searchInput');
             let searchTimeout;
-            
-            searchInput.addEventListener('input', function(e) {
+
+            searchInput.addEventListener('input', function (e) {
                 clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(function() {
+                searchTimeout = setTimeout(function () {
                     const searchTerm = e.target.value.toLowerCase();
                     if (searchTerm) {
-                        const filtered = componentsData.filter(function(component) {
+                        const filtered = componentsData.filter(function (component) {
                             return (
                                 (component.prompt && component.prompt.toLowerCase().includes(searchTerm)) ||
                                 (component.category && component.category.toLowerCase().includes(searchTerm)) ||
@@ -891,80 +1445,83 @@
                     }
                 }, 300);
             });
-            
+
             // Add buttons
-            document.getElementById('addNewBtn').addEventListener('click', function() {
+            document.getElementById('addNewBtn').addEventListener('click', function () {
                 openModal();
             });
-            
-            document.getElementById('addFirstBtn').addEventListener('click', function() {
+
+            document.getElementById('addFirstBtn').addEventListener('click', function () {
                 openModal();
             });
-            
+
             // Refresh button
-            document.getElementById('refreshBtn').addEventListener('click', function() {
+            document.getElementById('refreshBtn').addEventListener('click', function () {
                 loadData();
-                showNotification('Refreshing data', 'Fetching latest components...', 'info');
+                // showMessage('Refreshing', 'Fetching latest data...', 'info');
             });
-            
-            // Close modal
-            document.getElementById('closeModal').addEventListener('click', closeModal);
-            document.getElementById('cancelBtn').addEventListener('click', closeModal);
-            
+
+            // Confirm popup buttons
+            document.getElementById('confirmCancel').addEventListener('click', function () {
+                hidePopup('confirmPopup');
+            });
+
+            document.getElementById('confirmDelete').addEventListener('click', function () {
+                if (currentDeleteId) {
+                    deleteComponent(currentDeleteId);
+                    hidePopup('confirmPopup');
+                }
+            });
+
             // Form submit
-            document.getElementById('componentForm').addEventListener('submit', function(e) {
+            document.getElementById('componentForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 saveComponent();
             });
-            
-            // Copy prompt button
-            document.getElementById('copyPromptBtn').addEventListener('click', function() {
-                const prompt = document.getElementById('promptInput').value;
-                if (prompt) {
-                    copyTextToClipboard(prompt);
-                    showNotification('Prompt copied', 'Ready to paste in your design tool', 'success');
-                }
-            });
-            
-            // Image URL preview
-            document.getElementById('imageUrlInput').addEventListener('input', function(e) {
-                const url = e.target.value.trim();
-                const preview = document.getElementById('imagePreview');
-                const container = document.getElementById('previewContainer');
-                
-                if (url && url.startsWith('http')) {
-                    container.innerHTML = 
-                        '<img src="' + url + '" alt="Preview" class="w-full h-48 object-cover" ' +
-                        'onload="this.parentElement.parentElement.classList.remove(\'hidden\')" ' +
-                        'onerror="this.parentElement.parentElement.classList.add(\'hidden\')">';
-                    preview.classList.remove('hidden');
-                } else {
-                    preview.classList.add('hidden');
-                }
-            });
-            
-            // Close modal on background click
-            document.getElementById('componentModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal();
-                }
-            });
         }
-        
+
         function setupToggleListener() {
             const toggle = document.getElementById('actionToggle');
-            toggle.addEventListener('change', function() {
+            toggle.addEventListener('change', function () {
                 showActions = this.checked;
                 updateActionIconsVisibility();
-                
-                if (showActions) {
-                    showNotification('Edit mode enabled', 'Edit and delete icons are now visible', 'info');
+            });
+        }
+
+        function setupDropdowns() {
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.custom-dropdown')) {
+                    document.querySelectorAll('.dropdown-content').forEach(function (dropdown) {
+                        dropdown.classList.remove('show');
+                        const arrow = dropdown.previousElementSibling.querySelector('svg');
+                        if (arrow) arrow.style.transform = 'rotate(0)';
+                    });
                 }
             });
         }
-        
+
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const isShowing = dropdown.classList.contains('show');
+
+            // Close all dropdowns
+            document.querySelectorAll('.dropdown-content').forEach(function (d) {
+                d.classList.remove('show');
+                const arrow = d.previousElementSibling.querySelector('svg');
+                if (arrow) arrow.style.transform = 'rotate(0)';
+            });
+
+            // Toggle current dropdown
+            if (!isShowing) {
+                dropdown.classList.add('show');
+                const arrow = dropdown.previousElementSibling.querySelector('svg');
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
         function updateActionIconsVisibility() {
-            componentsData.forEach(function(component) {
+            componentsData.forEach(function (component) {
                 const actionIcons = document.getElementById('actionIcons-' + component.id);
                 if (actionIcons) {
                     if (showActions) {
@@ -973,95 +1530,114 @@
                         actionIcons.style.pointerEvents = 'auto';
                     } else {
                         actionIcons.style.opacity = '0';
-                        actionIcons.style.transform = 'translateY(-10px)';
+                        actionIcons.style.transform = 'translateY(-8px)';
                         actionIcons.style.pointerEvents = 'none';
                     }
                 }
             });
         }
-        
-        function showLoading(show) {
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            if (show) {
-                loadingOverlay.classList.remove('hidden');
-            } else {
-                loadingOverlay.classList.add('hidden');
-            }
+
+        function showPopup(popupId) {
+            const popup = document.getElementById(popupId);
+            popup.classList.add('active');
         }
-        
+
+        function hidePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            popup.classList.remove('active');
+        }
+
+        function showMessage(title, text, type) {
+            const messageIcon = document.getElementById('messageIcon');
+            let iconSvg = '';
+
+            switch (type) {
+                case 'success':
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+                    break;
+                case 'error':
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+                    break;
+                case 'info':
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+                    break;
+                default:
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+            }
+
+            messageIcon.innerHTML = iconSvg;
+            document.getElementById('messageTitle').textContent = title;
+            document.getElementById('messageText').textContent = text;
+            showPopup('messagePopup');
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                hidePopup('messagePopup');
+            }, 3000);
+        }
+
         function openModal(componentId) {
-            const modal = document.getElementById('componentModal');
             const title = document.getElementById('modalTitle');
-            
+
             if (componentId) {
                 // Edit mode
                 title.textContent = 'Edit Design';
                 document.getElementById('componentId').value = componentId;
-                
+
                 // Find and populate component data
                 const component = componentsData.find(c => c.id === componentId);
                 if (component) {
                     document.getElementById('promptInput').value = component.prompt;
                     document.getElementById('imageUrlInput').value = component.imageUrl;
-                    document.getElementById('keywordsInput').value = Array.isArray(component.keywords) ? 
+                    document.getElementById('keywordsInput').value = Array.isArray(component.keywords) ?
                         component.keywords.join(', ') : '';
-                    
-                    // Set category if it exists in dropdown
-                    const categorySelect = document.getElementById('categoryInput');
-                    if (component.category && categorySelect.querySelector('option[value="' + component.category + '"]')) {
-                        categorySelect.value = component.category;
-                    }
-                    
+
+                    // Set category
+                    document.getElementById('selectedCategory').textContent = component.category || 'Select Category';
+                    document.getElementById('categoryInput').value = component.category || '';
+
                     document.getElementById('tagInput').value = component.tag;
-                    
-                    // Trigger image preview if URL exists
-                    if (component.imageUrl) {
-                        document.getElementById('imageUrlInput').dispatchEvent(new Event('input'));
-                    }
                 }
             } else {
                 // Add mode
-                title.textContent = 'Add New Design';
+                title.textContent = 'Add Design';
                 document.getElementById('componentId').value = 'new';
                 document.getElementById('componentForm').reset();
-                document.getElementById('imagePreview').classList.add('hidden');
+                document.getElementById('selectedCategory').textContent = 'Select Category';
+                document.getElementById('categoryInput').value = '';
             }
-            
-            modal.classList.remove('hidden');
+
+            showPopup('componentModal');
         }
-        
-        function closeModal() {
-            const modal = document.getElementById('componentModal');
-            modal.classList.add('hidden');
-            document.getElementById('componentForm').reset();
-            document.getElementById('imagePreview').classList.add('hidden');
-        }
-        
+
         function editComponent(id) {
             openModal(id);
         }
-        
-        function deleteComponent(id) {
-            if (confirm('Are you sure you want to delete this design? This action cannot be undone.')) {
-                showLoading(true);
-                google.script.run
-                    .withSuccessHandler(function(result) {
-                        if (result.success) {
-                            loadData();
-                            showNotification('Design deleted', 'The component has been removed', 'success');
-                        } else {
-                            showNotification('Delete failed', result.message, 'error');
-                        }
-                        showLoading(false);
-                    })
-                    .withFailureHandler(function(error) {
-                        showLoading(false);
-                        showNotification('Delete error', error.message, 'error');
-                    })
-                    .deleteComponent(id);
-            }
+
+        function confirmDelete(id) {
+            currentDeleteId = id;
+            showPopup('confirmPopup');
         }
-        
+
+        function deleteComponent(id) {
+            showPopup('loadingPopup');
+            google.script.run
+                .withSuccessHandler(function (result) {
+                    hidePopup('loadingPopup');
+                    if (result.success) {
+                        loadData();
+                        showMessage('Success', 'Design deleted successfully', 'success');
+                    } else {
+                        showMessage('Error', result.message, 'error');
+                    }
+                })
+                .withFailureHandler(function (error) {
+                    hidePopup('loadingPopup');
+                    showMessage('Error', error.message, 'error');
+                })
+                .deleteComponent(id);
+        }
+
         function saveComponent() {
             const componentData = {
                 id: document.getElementById('componentId').value,
@@ -1071,44 +1647,74 @@
                 tag: document.getElementById('tagInput').value,
                 keywords: document.getElementById('keywordsInput').value.split(',').map(k => k.trim()).filter(k => k)
             };
-            
+
             if (!componentData.prompt || !componentData.category || !componentData.tag) {
-                showNotification('Missing information', 'Please fill all required fields', 'warning');
+                showMessage('Missing fields', 'Please fill all required fields', 'error');
                 return;
             }
-            
-            showLoading(true);
+
+            showPopup('loadingPopup');
             google.script.run
-                .withSuccessHandler(function(result) {
-                    closeModal();
+                .withSuccessHandler(function (result) {
+                    hidePopup('componentModal');
+                    hidePopup('loadingPopup');
                     loadData();
-                    showNotification('Design saved', result.message, 'success');
+                    showMessage('Success', result.message, 'success');
                 })
-                .withFailureHandler(function(error) {
-                    showLoading(false);
-                    showNotification('Save failed', error.message, 'error');
+                .withFailureHandler(function (error) {
+                    hidePopup('loadingPopup');
+                    showMessage('Error', error.message, 'error');
                 })
                 .saveComponent(componentData);
         }
-        
+
         function copyToClipboard(id) {
             const component = componentsData.find(c => c.id === id);
             if (component && component.prompt) {
                 copyTextToClipboard(component.prompt);
-                
-                // Visual feedback on button
+
                 const button = event.target.closest('.copy-btn');
                 if (button) {
-                    button.classList.add('copied');
+                    // Trigger the fade animation
+                    button.classList.add('bg-green-50', 'text-green-600', 'border-green-200');
+                    button.classList.remove('bg-purple-50', 'text-purple-600', 'border-purple-100', 'hover:bg-purple-100', 'hover:border-purple-200');
+
+                    // Animate text
+                    button.querySelector('.copy-text').classList.add('opacity-0', 'translate-y-full');
+                    button.querySelector('.copied-text').classList.remove('opacity-0', '-translate-y-full');
+                    button.querySelector('.copied-text').classList.add('opacity-100', 'translate-y-0');
+
+                    // Revert after 1 second
                     setTimeout(() => {
-                        button.classList.remove('copied');
-                    }, 1200);
+                        button.classList.remove('bg-green-50', 'text-green-600', 'border-green-200');
+                        button.classList.add('bg-purple-50', 'text-purple-600', 'border-purple-100', 'hover:bg-purple-100', 'hover:border-purple-200');
+
+                        button.querySelector('.copy-text').classList.remove('opacity-0', 'translate-y-full');
+                        button.querySelector('.copy-text').classList.add('opacity-100', 'translate-y-0');
+
+                        button.querySelector('.copied-text').classList.remove('opacity-100', 'translate-y-0');
+                        button.querySelector('.copied-text').classList.add('opacity-0', '-translate-y-full');
+                    }, 1000);
                 }
-                
-                showNotification('Prompt copied', 'Ready to paste in your design tool', 'success');
             }
         }
-        
+
+
+        function copyModalPrompt() {
+            const prompt = document.getElementById('promptInput').value;
+            if (prompt) {
+                copyTextToClipboard(prompt);
+
+                // optional smooth button animation
+                const btn = event.currentTarget;
+                btn.classList.add('bg-green-100', 'text-green-700', 'scale-105');
+                setTimeout(() => btn.classList.remove('bg-green-100', 'text-green-700', 'scale-105'), 600);
+
+                // show message using your existing function
+                showMessage('Copied', 'Prompt copied to clipboard', 'success');
+            }
+        }
+
         function copyTextToClipboard(text) {
             const textarea = document.createElement('textarea');
             textarea.value = text;
@@ -1117,90 +1723,48 @@
             document.execCommand('copy');
             document.body.removeChild(textarea);
         }
-        
+
         function populateCategoryDropdown(components) {
-            const select = document.getElementById('categoryInput');
+            const dropdown = document.getElementById('categoryDropdown');
             const categories = new Set();
-            
+
             // Add categories from existing components
-            components.forEach(function(c) {
+            components.forEach(function (c) {
                 if (c.category) categories.add(c.category);
             });
-            
+
             // Add default categories if none exist
             if (categories.size === 0) {
-                ['UI Design', 'Dashboard', 'Mobile UI', 'Web Design', 'UI Components'].forEach(function(cat) {
+                ['UI Design', 'Dashboard', 'Mobile UI', 'Web Design', 'UI Components'].forEach(function (cat) {
                     categories.add(cat);
                 });
             }
-            
-            // Clear existing options except the first one
-            select.innerHTML = '<option value="">Select a category</option>';
-            
+
+            // Clear existing options
+            dropdown.innerHTML = '';
+
             // Add options
-            Array.from(categories).sort().forEach(function(category) {
-                const option = document.createElement('option');
-                option.value = category;
+            Array.from(categories).sort().forEach(function (category) {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
                 option.textContent = category;
-                select.appendChild(option);
+                option.addEventListener('click', function () {
+                    document.getElementById('selectedCategory').textContent = category;
+                    document.getElementById('categoryInput').value = category;
+                    toggleDropdown('categoryDropdown');
+                });
+                dropdown.appendChild(option);
             });
         }
-        
-        function showNotification(title, message, type) {
-            const toast = document.getElementById('notificationToast');
-            const icon = document.getElementById('toastIcon');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastDescription = document.getElementById('toastDescription');
-            
-            // Set content
-            toastMessage.textContent = title;
-            toastDescription.textContent = message;
-            
-            // Set icon based on type
-            let iconSvg = '';
-            let bgColor = '';
-            
-            switch(type) {
-                case 'success':
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
-                    bgColor = 'bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-100';
-                    break;
-                case 'error':
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
-                    bgColor = 'bg-gradient-to-r from-red-50 to-rose-50 border-red-100';
-                    break;
-                case 'warning':
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>';
-                    bgColor = 'bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-100';
-                    break;
-                default:
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
-                    bgColor = 'bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-100';
-            }
-            
-            icon.innerHTML = iconSvg;
-            toast.className = toast.className.replace(/bg-gradient-to-r from-[^ ]+ to-[^ ]+ border-[^ ]+/, '').trim();
-            toast.className += ' ' + bgColor;
-            
-            // Show toast with animation
-            toast.classList.remove('hidden');
-            toast.classList.add('slide-in');
-            
-            // Auto-hide after 4 seconds
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-x-full');
-                setTimeout(() => {
-                    toast.classList.add('hidden');
-                    toast.classList.remove('opacity-0', 'translate-x-full', 'slide-in');
-                }, 300);
-            }, 4000);
-        }
-        
+
         // Make functions global
-        window.loadData = loadData;
-        window.editComponent = editComponent;
-        window.deleteComponent = deleteComponent;
         window.copyToClipboard = copyToClipboard;
+        window.confirmDelete = confirmDelete;
+        window.editComponent = editComponent;
+        window.toggleDropdown = toggleDropdown;
+        window.hidePopup = hidePopup;
+        window.copyModalPrompt = copyModalPrompt;
     </script>
 </body>
+
 </html>
