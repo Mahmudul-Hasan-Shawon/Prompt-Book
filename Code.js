@@ -1,5 +1,11 @@
-// Code.gs - Enhanced with better data handling
-function doGet() {
+// Updated Code.gs with multiple endpoint support
+function doGet(e) {
+  // Check if it's a JSON request
+  if (e && e.parameter && e.parameter.action === 'getData') {
+    return doGetJSON();
+  }
+  
+  // Otherwise serve the HTML app
   var html = HtmlService.createTemplateFromFile("index");
   var evaluated = html.evaluate();
   evaluated.addMetaTag("viewport", "width=device-width, initial-scale=1");
@@ -8,6 +14,54 @@ function doGet() {
     .setFaviconUrl("https://cdn-icons-png.flaticon.com/512/12133/12133548.png")
     .setTitle("Glassmorphism UI Manager");
 }
+
+function doPost(e) {
+  // Handle POST requests for saving/deleting
+  try {
+    const action = e.parameter.action;
+    const data = JSON.parse(e.postData.contents);
+    
+    switch (action) {
+      case 'save':
+        const result = saveComponent(data);
+        return ContentService
+          .createTextOutput(JSON.stringify(result))
+          .setMimeType(ContentService.MimeType.JSON);
+      
+      case 'delete':
+        const deleteResult = deleteComponent(data.id);
+        return ContentService
+          .createTextOutput(JSON.stringify(deleteResult))
+          .setMimeType(ContentService.MimeType.JSON);
+      
+      default:
+        throw new Error('Invalid action');
+    }
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: error.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// The JSON endpoint
+function doGetJSON() {
+  try {
+    const data = getSheetData();
+    
+    return ContentService
+      .createTextOutput(JSON.stringify(data))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader('Access-Control-Allow-Origin', '*');
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: error.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// Keep all your existing functions...
+
 
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
