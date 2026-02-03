@@ -1,5 +1,92 @@
-// Code.gs - Enhanced with better data handling
-function doGet() {
+// Code.gs - Fixed for GitHub Pages
+function doGet(e) {
+  // Check if it's a JSON request
+  if (e && e.parameter && e.parameter.action === 'getData') {
+    return getDataJSON();
+  }
+  
+  // Otherwise serve the HTML app
+  return serveHTML();
+}
+
+function doPost(e) {
+  try {
+    // Get parameters from POST data
+    const params = e.parameter;
+    let data = {};
+    let action = '';
+    
+    if (e.postData && e.postData.contents) {
+      // Parse from POST body
+      const postData = e.postData.contents;
+      
+      // Check if it's form data
+      if (postData.includes('action=')) {
+        // Parse form data
+        const formData = new URLSearchParams(postData);
+        action = formData.get('action');
+        const dataString = formData.get('data') || '{}';
+        data = JSON.parse(dataString);
+      } else {
+        // Parse as raw JSON
+        data = JSON.parse(postData);
+        action = data.action || params.action;
+      }
+    } else {
+      // Parse from URL parameters
+      action = params.action || '';
+      const dataString = params.data || '{}';
+      data = JSON.parse(dataString);
+    }
+    
+    // Validate action
+    if (!action) {
+      throw new Error('No action specified');
+    }
+    
+    // Handle different actions
+    let result;
+    switch(action) {
+      case 'save':
+        result = saveComponent(data);
+        break;
+      case 'delete':
+        result = deleteComponent(data.id);
+        break;
+      default:
+        throw new Error('Invalid action: ' + action);
+    }
+    
+    return createJSONResponse(result);
+    
+  } catch (error) {
+    console.error('Error in doPost:', error);
+    return createJSONResponse({ 
+      success: false, 
+      error: error.message 
+    });
+  }
+}
+
+// Helper function to create JSON response with CORS headers
+function createJSONResponse(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader('Access-Control-Allow-Origin', '*')
+    .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+}
+
+function getDataJSON() {
+  try {
+    const data = getSheetData();
+    return createJSONResponse(data);
+  } catch (error) {
+    return createJSONResponse({ error: error.message });
+  }
+}
+
+function serveHTML() {
   var html = HtmlService.createTemplateFromFile("index");
   var evaluated = html.evaluate();
   evaluated.addMetaTag("viewport", "width=device-width, initial-scale=1");
