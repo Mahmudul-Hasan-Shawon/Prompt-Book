@@ -1,65 +1,841 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UI Design Manager</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { font-family: 'Poppins', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        body { background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%); min-height: 100vh; position: relative; overflow-x: hidden; }
-        .light-effect { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.2; z-index: 0; pointer-events: none; }
-        .light-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%); top: -100px; left: -100px; }
-        .light-2 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%); bottom: -50px; right: -50px; }
-        .glass-panel { background: rgba(255,255,255,0.75); backdrop-filter: blur(20px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.6); }
-        .glass-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(16px); border-radius: 18px; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 24px rgba(0,0,0,0.03), 0 1px 4px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.5); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .glass-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.5); box-shadow: 0 12px 32px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.6); }
-        .btn-compact { padding: 8px 16px; font-size: 0.875rem; font-weight: 500; border-radius: 12px; transition: all 0.2s ease; border: 1px solid rgba(255,255,255,0.3); background: rgb(255,255,255); backdrop-filter: blur(10px); }
-        .btn-primary { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; border: none; box-shadow: 0 4px 16px rgba(139,92,246,0.2); }
-        .btn-primary:hover { background: linear-gradient(135deg, #7c3aed, #6d28d9); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,92,246,0.3); }
-        .input-compact { padding: 10px 14px; font-size: 0.875rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.8); transition: all 0.2s ease; }
-        .input-compact:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,0.1); background: rgba(255,255,255,0.9); }
-        .toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: rgba(156,163,175,0.2); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(4px); transition: .3s; border-radius: 34px; }
-        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: linear-gradient(135deg, #94a3b8, #cbd5e1); transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input:checked+.toggle-slider { background: rgba(139,92,246,0.2); border-color: rgba(139,92,246,0.3); }
-        input:checked+.toggle-slider:before { transform: translateX(24px); background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 2px 4px rgba(139,92,246,0.3); }
-        .custom-dropdown { position: relative; width: 100%; }
-        .dropdown-trigger { padding: 10px 14px; font-size: 0.875rem; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.8); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; }
-        .dropdown-trigger:hover { border-color: rgba(139,92,246,0.3); background: rgba(255,255,255,0.9); }
-        .dropdown-content { position: absolute; top: 100%; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-top: 4px; max-height: 200px; overflow-y: auto; z-index: 50; opacity: 0; transform: translateY(-10px); visibility: hidden; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .dropdown-content.show { opacity: 1; transform: translateY(0); visibility: visible; }
-        .dropdown-option { padding: 10px 14px; font-size: 0.875rem; cursor: pointer; transition: all 0.15s ease; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .dropdown-option:last-child { border-bottom: none; }
-        .dropdown-option:hover { background: rgba(139,92,246,0.08); }
-        .dropdown-option.selected { background: rgba(139,92,246,0.12); color: #7c3aed; font-weight: 500; }
-        .popup-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-        .popup-overlay.active { opacity: 1; visibility: visible; }
-        .popup-content { background: rgba(255,255,255,0.85); backdrop-filter: blur(24px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 24px; max-width: 400px; width: 90%; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .popup-overlay.active .popup-content { transform: scale(1); }
-        .action-icons { background: white; position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; opacity: 0; transform: translateY(-8px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .glass-card:hover .action-icons { opacity: 1; transform: translateY(0); }
-        .modal-content { background: rgba(255,255,255,0.9); backdrop-filter: blur(24px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 20px 60px rgba(0,0,0,0.1); max-width: 480px; width: 90%; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        #viewPromptModal .modal-content { transform: translateY(20px) scale(0.98); opacity: 0; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-        #viewPromptModal.active .modal-content { transform: translateY(0) scale(1); opacity: 1; }
-        .thin-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
-        .thin-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); border-radius: 10px; }
-        .thin-scrollbar::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.3); border-radius: 10px; }
-        .thin-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.5); }
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .badge-compact { padding: 4px 10px; font-size: 0.75rem; font-weight: 600; border-radius: 10px; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(4px); }
-        .copy-btn { position: relative; overflow: hidden; }
-        .copy-btn.copied::after { content: 'Copied!'; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(34,197,94,0.9); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 500; border-radius: 10px; animation: fadeOut 1.2s ease forwards; }
-        @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
-        @keyframes gradient-x { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .animate-gradient-x { background-size: 200% auto; animation: gradient-x 3s ease infinite; }
+        * {
+            font-family: 'Poppins', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient light effects */
+        .light-effect {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .light-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
+        }
+
+        .light-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+            bottom: -50px;
+            right: -50px;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.04),
+                0 2px 8px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow:
+                0 4px 24px rgba(0, 0, 0, 0.03),
+                0 1px 4px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow:
+                0 12px 32px rgba(0, 0, 0, 0.06),
+                0 4px 12px rgba(0, 0, 0, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        /* Compact buttons */
+        .btn-compact {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgb(255, 255, 255);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Compact inputs */
+        .input-compact {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease;
+        }
+
+        .input-compact:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(156, 163, 175, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            transition: .3s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input:checked+.toggle-slider {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(24px);
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Custom dropdown */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .dropdown-trigger {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-trigger:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 50;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dropdown-content.show {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .dropdown-option {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-option:hover {
+            background: rgba(139, 92, 246, 0.08);
+        }
+
+        .dropdown-option.selected {
+            background: rgba(139, 92, 246, 0.12);
+            color: #7c3aed;
+            font-weight: 500;
+        }
+
+        /* Custom loader - From Uiverse.io by andrew-manzyk */
+        .loader {
+            --color-one: #ffbf48;
+            --color-two: #be4a1d;
+            --color-three: #ffbf4780;
+            --color-four: #bf4a1d80;
+            --color-five: #ffbf4740;
+            --time-animation: 2s;
+            --size: 1;
+            position: relative;
+            border-radius: 50%;
+            transform: scale(var(--size));
+            box-shadow:
+                0 0 25px 0 var(--color-three),
+                0 20px 50px 0 var(--color-four);
+            animation: colorize calc(var(--time-animation) * 3) ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        .loader::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border-top: solid 1px var(--color-one);
+            border-bottom: solid 1px var(--color-two);
+            background: linear-gradient(180deg, var(--color-five), var(--color-four));
+            box-shadow:
+                inset 0 10px 10px 0 var(--color-three),
+                inset 0 -10px 10px 0 var(--color-four);
+        }
+
+        .loader .box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(180deg,
+                    var(--color-one) 30%,
+                    var(--color-two) 70%);
+            mask: url(#clipping);
+            -webkit-mask: url(#clipping);
+        }
+
+        .loader svg {
+            position: absolute;
+        }
+
+        .loader svg #clipping {
+            filter: contrast(15);
+            animation: roundness calc(var(--time-animation) / 2) linear infinite;
+        }
+
+        .loader svg #clipping polygon {
+            filter: blur(7px);
+        }
+
+        .loader svg #clipping polygon:nth-child(1) {
+            transform-origin: 75% 25%;
+            transform: rotate(90deg);
+        }
+
+        .loader svg #clipping polygon:nth-child(2) {
+            transform-origin: 50% 50%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+        }
+
+        .loader svg #clipping polygon:nth-child(3) {
+            transform-origin: 50% 60%;
+            animation: rotation var(--time-animation) linear infinite;
+            animation-delay: calc(var(--time-animation) / -3);
+        }
+
+        .loader svg #clipping polygon:nth-child(4) {
+            transform-origin: 40% 40%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+        }
+
+        .loader svg #clipping polygon:nth-child(5) {
+            transform-origin: 40% 40%;
+            animation: rotation var(--time-animation) linear infinite reverse;
+            animation-delay: calc(var(--time-animation) / -2);
+        }
+
+        .loader svg #clipping polygon:nth-child(6) {
+            transform-origin: 60% 40%;
+            animation: rotation var(--time-animation) linear infinite;
+        }
+
+        .loader svg #clipping polygon:nth-child(7) {
+            transform-origin: 60% 40%;
+            animation: rotation var(--time-animation) linear infinite;
+            animation-delay: calc(var(--time-animation) / -1.5);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes roundness {
+            0% {
+                filter: contrast(15);
+            }
+
+            20% {
+                filter: contrast(3);
+            }
+
+            40% {
+                filter: contrast(3);
+            }
+
+            60% {
+                filter: contrast(15);
+            }
+
+            100% {
+                filter: contrast(15);
+            }
+        }
+
+        @keyframes colorize {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+
+            20% {
+                filter: hue-rotate(-30deg);
+            }
+
+            40% {
+                filter: hue-rotate(-60deg);
+            }
+
+            60% {
+                filter: hue-rotate(-90deg);
+            }
+
+            80% {
+                filter: hue-rotate(-45deg);
+            }
+
+            100% {
+                filter: hue-rotate(0deg);
+            }
+        }
+
+        /* Popup overlay */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: #5a5a5a24;
+            backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+
+        /* Action icons */
+        .action-icons {
+            background: white;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover .action-icons {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Compact stats */
+        .stat-item {
+            padding: 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+
+
+        /* Simple Custom Scrollbar */
+        /* Minimalist auto-hide scrollbar */
+
+        /* Hide scrollbar completely for all elements */
+
+        /* For Webkit browsers (Chrome, Edge, Safari) */
+
+
+        /* Scrollbar base */
+        body {
+            overflow: auto;
+        }
+
+        /* Webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+            /* Hide track */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        /* Optional: slightly darker on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.7);
+        }
+
+
+
+
+
+        /* Thin scrollbar */
+        .thin-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        .thin-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 10px;
+        }
+
+        .thin-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+        }
+
+        .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.5);
+        }
+
+        /* Fade animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Compact badge */
+        .badge-compact {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Copy button feedback */
+        .copy-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .copy-btn.copied::after {
+            content: 'Copied!';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(34, 197, 94, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 10px;
+            animation: fadeOut 1.2s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Modal */
+        .modal-content {
+            background: rgb(255, 255, 255);
+            backdrop-filter: blur(24px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 480px;
+            width: 90%;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+    </style>
+    <style>
+        @keyframes gradient-x {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes float-slow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .animate-gradient-x {
+            background-size: 200% auto;
+            animation: gradient-x 3s ease infinite;
+        }
+
+        .animate-float-slow {
+            animation: float-slow 4s ease-in-out infinite;
+        }
+    </style>
+    <style>
+        .copy-btn[data-copied="true"] {
+            background-color: rgb(240, 253, 244) !important;
+            color: rgb(22, 163, 74) !important;
+            border-color: rgb(187, 247, 208) !important;
+            transform: scale(1.05);
+        }
+
+        /* Animation keyframes in Tailwind-like way */
+        @keyframes pulse-subtle {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .copy-btn[data-copied="true"] {
+            animation: pulse-subtle 0.3s ease-in-out;
+        }
+    </style>
+    <style>
+        @keyframes gradient-flow {
+            0% {
+                background: linear-gradient(90deg,
+                        transparent 0%,
+                        rgba(96, 165, 250, 0.3) 25%,
+                        rgba(167, 139, 250, 0.3) 50%,
+                        rgba(248, 113, 113, 0.3) 75%,
+                        transparent 100%);
+                background-position: 200% 0;
+            }
+
+            50% {
+                background: linear-gradient(90deg,
+                        transparent 0%,
+                        rgba(248, 113, 113, 0.3) 25%,
+                        rgba(96, 165, 250, 0.3) 50%,
+                        rgba(167, 139, 250, 0.3) 75%,
+                        transparent 100%);
+                background-position: -200% 0;
+            }
+
+            100% {
+                background: linear-gradient(90deg,
+                        transparent 0%,
+                        rgba(167, 139, 250, 0.3) 25%,
+                        rgba(248, 113, 113, 0.3) 50%,
+                        rgba(96, 165, 250, 0.3) 75%,
+                        transparent 100%);
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes border-glow {
+            0% {
+                box-shadow:
+                    0 0 0 2px rgba(96, 165, 250, 0.2),
+                    0 0 20px rgba(96, 165, 250, 0.15),
+                    0 0 40px rgba(96, 165, 250, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            33% {
+                box-shadow:
+                    0 0 0 2px rgba(167, 139, 250, 0.2),
+                    0 0 20px rgba(167, 139, 250, 0.15),
+                    0 0 40px rgba(167, 139, 250, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            66% {
+                box-shadow:
+                    0 0 0 2px rgba(248, 113, 113, 0.2),
+                    0 0 20px rgba(248, 113, 113, 0.15),
+                    0 0 40px rgba(248, 113, 113, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 2px rgba(96, 165, 250, 0.2),
+                    0 0 20px rgba(96, 165, 250, 0.15),
+                    0 0 40px rgba(96, 165, 250, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        @keyframes icon-pulse {
+
+            0%,
+            100% {
+                background: rgba(96, 165, 250, 0.15);
+                transform: scale(0.95);
+            }
+
+            33% {
+                background: rgba(167, 139, 250, 0.15);
+                transform: scale(1.05);
+            }
+
+            66% {
+                background: rgba(248, 113, 113, 0.15);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes icon-glow {
+            0% {
+                filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+                color: rgba(96, 165, 250, 0.9);
+            }
+
+            33% {
+                filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.6));
+                color: rgba(167, 139, 250, 0.9);
+            }
+
+            66% {
+                filter: drop-shadow(0 0 4px rgba(248, 113, 113, 0.6));
+                color: rgba(248, 113, 113, 0.9);
+            }
+
+            100% {
+                filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+                color: rgba(96, 165, 250, 0.9);
+            }
+        }
+
+        .animate-gradient-flow {
+            animation: gradient-flow 10s linear infinite;
+            background-size: 300% 100%;
+        }
+
+        .animate-border-glow {
+            animation: border-glow 8s ease-in-out infinite;
+        }
+
+        .animate-icon-pulse {
+            animation: icon-pulse 8s ease-in-out infinite;
+        }
+
+        .animate-icon-glow {
+            animation: icon-glow 8s ease-in-out infinite;
+        }
+
+        /* Focus effects */
+        #searchInput:focus {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        #searchInput:focus+.animate-border-glow {
+            animation-duration: 4s;
+            animation-timing-function: ease-out;
+        }
+
+        /* Hover effects */
+        .animate-border-glow:hover {
+            animation-duration: 5s;
+        }
+
+        /* Placeholder styling */
+        #searchInput::placeholder {
+            color: rgba(107, 114, 128, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus::placeholder {
+            color: rgba(107, 114, 128, 0.4);
+            transform: translateX(5px);
+        }
+
+        /* Smooth transitions for all animated elements */
+        .animate-gradient-flow,
+        .animate-border-glow,
+        .animate-icon-pulse,
+        .animate-icon-glow {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Subtle pulse on hover */
+        #searchInput:hover~.animate-gradient-flow {
+            opacity: 0.3;
+        }
     </style>
 </head>
-<body class="p-4 md:p-6">
+
+<body class="p-4 md:p-6 ">
     <!-- Ambient lights -->
     <div class="light-effect light-1"></div>
     <div class="light-effect light-2"></div>
@@ -67,7 +843,22 @@
     <!-- Loading Popup -->
     <div id="loadingPopup" class="popup-overlay">
         <div class="flex flex-col items-center justify-center p-8">
-            <div class="w-12 h-12 rounded-full border-4 border-purple-200 border-t-purple-600 animate-spin"></div>
+            <div class="loader" style="--size: 0.8;">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <defs>
+                        <mask id="clipping">
+                            <polygon points="0,0 100,0 100,100 0,100" fill="black"></polygon>
+                            <polygon points="25,25 75,25 50,75" fill="white"></polygon>
+                            <polygon points="50,25 75,75 25,75" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                            <polygon points="35,35 65,35 50,65" fill="white"></polygon>
+                        </mask>
+                    </defs>
+                </svg>
+                <div class="box"></div>
+            </div>
             <p class="text-gray-700 font-medium mt-6 text-sm">Loading designs...</p>
             <p class="text-gray-500 text-xs mt-2">Fetching from Google Sheets</p>
         </div>
@@ -78,15 +869,19 @@
         <div class="popup-content">
             <div class="text-center">
                 <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                     </svg>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-2" id="confirmTitle">Delete Design</h3>
-                <p class="text-gray-600 text-sm mb-6" id="confirmMessage">Are you sure you want to delete this design? This action cannot be undone.</p>
+                <p class="text-gray-600 text-sm mb-6" id="confirmMessage">Are you sure you want to delete this design?
+                    This action cannot be undone.</p>
                 <div class="flex gap-3 justify-center">
                     <button id="confirmCancel" class="btn-compact px-6 hover:bg-gray-100">Cancel</button>
-                    <button id="confirmDelete" class="btn-compact px-6 bg-red-500 text-white hover:bg-red-600 border-red-500">Delete</button>
+                    <button id="confirmDelete"
+                        class="btn-compact px-6 bg-red-500 text-white hover:bg-red-600 border-red-500">Delete</button>
                 </div>
             </div>
         </div>
@@ -102,118 +897,12 @@
                     <p class="text-gray-600 text-xs mt-1" id="messageText"></p>
                 </div>
                 <button onclick="hidePopup('messagePopup')" class="text-gray-400 hover:text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Component Modal -->
-    <div id="componentModal" class="popup-overlay">
-        <div class="modal-content p-6">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800" id="modalTitle">Add Design</h3>
-                    <p class="text-gray-500 text-xs mt-1">Create a new UI component design</p>
-                </div>
-                <button onclick="hidePopup('componentModal')" class="p-2 rounded-full text-gray-400 hover:bg-red-500 hover:text-white transition-colors duration-200 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <form id="componentForm" class="space-y-4">
-                <input type="hidden" id="componentId" value="new">
-                <div>
-                    <label class="block text-gray-700 text-sm font-medium mb-2">Design Prompt <span class="text-red-500">*</span></label>
-                    <textarea id="promptInput" rows="3" class="w-full input-compact" placeholder="Describe your UI component..." required></textarea>
-                    <div class="flex justify-between items-center mt-2">
-                        <p class="text-gray-500 text-xs">Be specific about your requirements</p>
-                        <button type="button" onclick="copyModalPrompt()" class="px-3 py-1.5 rounded-full text-xs font-medium text-purple-600 bg-purple-50 flex items-center gap-1 transition-all duration-300 ease-out hover:bg-purple-100 hover:text-purple-800 focus:outline-none active:scale-95">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                            <span>Copy</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-gray-700 text-sm font-medium mb-2">Category <span class="text-red-500">*</span></label>
-                        <div class="custom-dropdown">
-                            <div class="dropdown-trigger" onclick="toggleDropdown('categoryDropdown')">
-                                <span id="selectedCategory">Select Category</span>
-                                <svg class="h-4 w-4 text-gray-400 transition-transform" id="categoryArrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="dropdown-content thin-scrollbar" id="categoryDropdown"></div>
-                            <input type="hidden" id="categoryInput" required>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-medium mb-2">Tag <span class="text-red-500">*</span></label>
-                        <input type="text" id="tagInput" class="w-full input-compact" placeholder="Enter tag" required>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-gray-700 text-sm font-medium mb-2">Image URL</label>
-                        <input type="text" id="imageUrlInput" class="w-full input-compact" placeholder="https://example.com/preview.png">
-                        <p class="text-gray-500 text-xs mt-2">Optional preview image</p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-medium mb-2">Keywords</label>
-                        <input type="text" id="keywordsInput" class="w-full input-compact" placeholder="modern, minimalist, glassmorphism">
-                        <p class="text-gray-500 text-xs mt-2">Separate with commas</p>
-                    </div>
-                </div>
-                <div class="flex justify-end gap-3 pt-6 border-t border-gray-100">
-                    <button type="button" onclick="hidePopup('componentModal')" class="btn-compact px-6 hover:bg-gray-100">Cancel</button>
-                    <button type="submit" class="btn-compact btn-primary px-6">Save Design</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- View Prompt Modal -->
-    <div id="viewPromptModal" class="popup-overlay">
-        <div class="modal-content p-6 max-w-2xl">
-            <div class="flex justify-between items-start mb-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800" id="viewPromptTitle">Prompt Details</h3>
-                    <div class="flex items-center gap-2 mt-2">
-                        <span id="viewPromptCategory" class="badge-compact bg-gray-100 text-gray-700"></span>
-                        <span id="viewPromptTag" class="text-xs text-gray-500"></span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="copyViewPrompt()" class="p-2 rounded-lg bg-purple-50 text-purple-600 hover:bg-purple-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                    </button>
-                    <button onclick="hidePopup('viewPromptModal')" class="p-2 rounded-lg text-gray-400 hover:bg-gray-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-5 mb-4">
-                <p id="viewPromptContent" class="text-gray-700 whitespace-pre-wrap leading-relaxed"></p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div class="bg-white rounded-lg p-4 border border-gray-100">
-                    <p class="text-gray-500 mb-1">Keywords</p>
-                    <p id="viewPromptKeywords" class="font-medium text-gray-700"></p>
-                </div>
-                <div class="bg-white rounded-lg p-4 border border-gray-100">
-                    <p class="text-gray-500 mb-1">Image Preview</p>
-                    <div id="viewPromptImage" class="mt-2 rounded-lg overflow-hidden max-h-40"></div>
-                </div>
             </div>
         </div>
     </div>
@@ -224,11 +913,17 @@
         <header class="mb-4 fade-in">
             <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-center">
                 <div class="relative flex items-center justify-start h-24">
+                    <!-- Animated title -->
                     <h1 class="text-4xl md:text-5xl font-bold">
-                        <span class="bg-gradient-to-r from-purple-600 via-pink-500 to-violet-600 bg-clip-text text-transparent animate-gradient-x">UI Prompt Library</span>
+                        <span
+                            class="bg-gradient-to-r from-purple-600 via-pink-500 to-violet-600 bg-clip-text text-transparent animate-gradient-x">
+                            UI Prompt Library
+                        </span>
                     </h1>
                 </div>
+
                 <div class="flex flex-wrap items-center gap-3">
+                    <!-- Edit Mode Toggle -->
                     <div class="flex items-center gap-2 px-3 py-2 glass-panel rounded-2xl">
                         <span class="text-gray-700 text-sm font-medium">Edit Mode</span>
                         <label class="toggle-switch">
@@ -236,144 +931,390 @@
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
+
+                    <!-- Action Buttons -->
                     <div class="flex gap-2">
                         <button id="refreshBtn" class="btn-compact flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                    clip-rule="evenodd" />
                             </svg>
                             Refresh
                         </button>
                         <button id="addNewBtn" class="btn-compact btn-primary flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
                             </svg>
                             Add New
                         </button>
                     </div>
                 </div>
             </div>
+
+            <!-- Stats -->
+            <!-- <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10 fade-in" style="animation-delay: 0.1s">
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Total Components</p>
+                            <h3 id="totalCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-purple-500 bg-purple-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Active designs in your library</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Categories</p>
+                            <h3 id="categoryCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-emerald-500 bg-emerald-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Different UI categories</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Tags</p>
+                            <h3 id="tagCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-blue-500 bg-blue-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Unique design tags</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Last Updated</p>
+                            <h3 id="lastUpdated" class="text-xl font-bold text-gray-800">-</h3>
+                        </div>
+                        <div class="text-amber-500 bg-amber-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Data synchronization</p>
+                    </div>
+                </div>
+            </div> -->
+
         </header>
 
         <!-- Main Content -->
-        <div class="glass-panel p-5 md:p-6 mb-6 fade-in relative flex flex-col justify-center min-h-[200px]" style="animation-delay: 0.1s">
-            <div class="px-5 flex flex-col xl:flex-row gap-8 items-center justify-center w-full">
-                <!-- Search Bar -->
-                <div class="w-full xl:w-1/2 flex justify-center">
-                    <div class="w-full max-w-2xl">
-                        <div class="relative rounded-full overflow-hidden border border-gray-200">
-                            <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
-                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="text" id="searchInput" class="relative w-full pl-12 pr-6 py-3.5 bg-transparent rounded-full focus:outline-none text-gray-800 placeholder-gray-500 transition-all duration-300" placeholder="Search prompts...">
+         
+        <!-- Main Content -->
+<div class="glass-panel p-5 md:p-6 mb-6 fade-in relative flex flex-col justify-center min-h-[200px]" style="animation-delay: 0.1s">
+    
+    <!-- Centered Content Wrapper: 50% / 50% Layout -->
+    <div class="px-5 flex flex-col xl:flex-row gap-8 items-center justify-center w-full">
+        
+        <!-- LEFT: Search Bar (Centered in 50% width) -->
+        <div class="w-full xl:w-1/2 flex justify-center">
+            <div class="w-full max-w-2xl">
+                <div class="relative rounded-full overflow-hidden animate-border-glow">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent animate-gradient-flow opacity-20"></div>
+                    <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                        <div class="relative">
+                            <div class="absolute -inset-2 rounded-full blur-md animate-icon-pulse"></div>
+                            <svg class="relative h-5 w-5 animate-icon-glow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                            </svg>
                         </div>
+                    </div>
+                    <input type="text" id="searchInput" class="relative w-full pl-12 pr-6 py-3.5 bg-transparent rounded-full focus:outline-none text-gray-800 placeholder-gray-500 transition-all duration-300" placeholder="Search prompts...">
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Stats Grid (Centered in 50% width, Icons Left - Text Right) -->
+        <div class="w-full xl:w-1/2 flex justify-center h-full items-center">
+            <div class="grid grid-cols-4 gap-3 w-full max-w-2xl">
+                
+                <!-- Stat 1: Total Components -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-purple-100/50 flex items-center justify-center flex-shrink-0 text-purple-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="totalCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Total</p>
                     </div>
                 </div>
 
-                <!-- Stats Grid -->
-                <div class="w-full xl:w-1/2 flex justify-center h-full items-center">
-                    <div class="grid grid-cols-4 gap-3 w-full max-w-2xl">
-                        <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <div class="w-8 h-8 rounded-lg bg-purple-100/50 flex items-center justify-center flex-shrink-0 text-purple-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                                </svg>
-                            </div>
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="totalCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
-                                <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Total</p>
-                            </div>
+                <!-- Stat 2: Categories -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-emerald-100/50 flex items-center justify-center flex-shrink-0 text-emerald-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="categoryCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Types</p>
+                    </div>
+                </div>
+
+                <!-- Stat 3: Tags -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-blue-100/50 flex items-center justify-center flex-shrink-0 text-blue-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="tagCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Tags</p>
+                    </div>
+                </div>
+
+                <!-- Stat 4: Last Updated -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-amber-100/50 flex items-center justify-center flex-shrink-0 text-amber-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="lastUpdated" class="text-sm font-bold text-gray-800 leading-tight">-</h3>
+                        <!-- <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Time</p> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards Container with Scroll (Below Search & Stats) -->
+    <div id="cardsContainer" class="max-h-[70vh] overflow-y-auto thin-scrollbar p-5 mt-6">
+        <!-- Cards Grid -->
+        <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Loading skeleton -->
+            <div class="col-span-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
                         </div>
-                        <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100/50 flex items-center justify-center flex-shrink-0 text-emerald-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="categoryCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
-                                <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Types</p>
-                            </div>
+                    </div>
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
                         </div>
-                        <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <div class="w-8 h-8 rounded-lg bg-blue-100/50 flex items-center justify-center flex-shrink-0 text-blue-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="tagCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
-                                <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Tags</p>
-                            </div>
-                        </div>
-                        <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <div class="w-8 h-8 rounded-lg bg-amber-100/50 flex items-center justify-center flex-shrink-0 text-amber-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="lastUpdated" class="text-sm font-bold text-gray-800 leading-tight">-</h3>
-                            </div>
+                    </div>
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Cards Container -->
-            <div id="cardsContainer" class="max-h-[70vh] overflow-y-auto thin-scrollbar p-5 mt-6">
-                <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Loading skeleton -->
-                    <div class="col-span-full">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="glass-card p-4 animate-pulse">
-                                <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                                <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                                <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                                <div class="flex justify-between">
-                                    <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                    <div class="h-6 bg-gray-200 rounded w-6"></div>
-                                </div>
-                            </div>
-                            <div class="glass-card p-4 animate-pulse">
-                                <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                                <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                                <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                                <div class="flex justify-between">
-                                    <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                    <div class="h-6 bg-gray-200 rounded w-6"></div>
-                                </div>
-                            </div>
-                            <div class="glass-card p-4 animate-pulse">
-                                <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                                <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                                <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                                <div class="flex justify-between">
-                                    <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                    <div class="h-6 bg-gray-200 rounded w-6"></div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden col-span-full py-12 text-center">
+            <div class="text-gray-300 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">No designs found</h3>
+            <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Try adjusting your search or add your first design component</p>
+            <button id="addFirstBtn" class="btn-compact btn-primary px-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                Add Design
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Styles for the one-row stat items */
+    .stat-row-item {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+
+    .stat-row-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border-color: rgba(255,255,255,0.8);
+    }
+</style>
+
+    <!-- Modal -->
+    <div id="componentModal" class="popup-overlay">
+        <div class="modal-content p-6">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800" id="modalTitle">Add Design</h3>
+                    <p class="text-gray-500 text-xs mt-1">Create a new UI component design</p>
+                </div>
+                <button onclick="hidePopup('componentModal')" class="p-2 rounded-full
+           text-gray-400
+           hover:bg-red-500
+           hover:text-white
+           transition-colors duration-200
+           focus:outline-none">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+            </div>
+
+            <form id="componentForm" class="space-y-4">
+                <input type="hidden" id="componentId" value="new">
+
+                <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">
+                        Design Prompt <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="promptInput" rows="3" class="w-full input-compact"
+                        placeholder="Describe your UI component..." required></textarea>
+                    <div class="flex justify-between items-center mt-2">
+                        <p class="text-gray-500 text-xs">Be specific about your requirements</p>
+                        <button type="button" onclick="copyModalPrompt()" class="px-3 py-1.5 rounded-full
+           text-xs font-medium
+           text-purple-600 bg-purple-50
+           flex items-center gap-1
+           transition-all duration-300 ease-out
+           hover:bg-purple-100 hover:text-purple-800
+           focus:outline-none active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            <span>Copy</span>
+                        </button>
+
+
                     </div>
                 </div>
-                <div id="emptyState" class="hidden col-span-full py-12 text-center">
-                    <div class="text-gray-300 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">
+                            Category <span class="text-red-500">*</span>
+                        </label>
+                        <div class="custom-dropdown">
+                            <div class="dropdown-trigger" onclick="toggleDropdown('categoryDropdown')">
+                                <span id="selectedCategory">Select Category</span>
+                                <svg class="h-4 w-4 text-gray-400 transition-transform" id="categoryArrow"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="dropdown-content thin-scrollbar" id="categoryDropdown"></div>
+                            <input type="hidden" id="categoryInput" required>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">No designs found</h3>
-                    <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Try adjusting your search or add your first design component</p>
-                    <button id="addFirstBtn" class="btn-compact btn-primary px-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clip-rule="evenodd" />
-                        </svg>
-                        Add Design
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">
+                            Tag <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="tagInput" class="w-full input-compact" placeholder="Enter tag" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Image URL</label>
+                        <input type="text" id="imageUrlInput" class="w-full input-compact"
+                            placeholder="https://example.com/preview.png">
+                        <p class="text-gray-500 text-xs mt-2">Optional preview image</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Keywords</label>
+                        <input type="text" id="keywordsInput" class="w-full input-compact"
+                            placeholder="modern, minimalist, glassmorphism">
+                        <p class="text-gray-500 text-xs mt-2">Separate with commas</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-6 border-t border-gray-100">
+                    <button type="button" onclick="hidePopup('componentModal')"
+                        class="btn-compact px-6 hover:bg-gray-100">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-compact btn-primary px-6">
+                        Save Design
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -383,8 +1324,6 @@
         let categoriesData = [];
         let showActions = false;
         let currentDeleteId = null;
-        let currentViewPrompt = '';
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby5d5y9Ffw2SrzhEM1OrvLAIg0UQ6zKnyyIJYoSXP02YRoaBQYDaijbPEMhjc1LdsCMyQ/exec';
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function () {
@@ -396,27 +1335,14 @@
 
         function loadData() {
             showPopup('loadingPopup');
-            const url = `${WEB_APP_URL}?action=getData`;
-            
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    hidePopup('loadingPopup');
-                    handleData(data);
-                })
-                .catch(error => {
-                    hidePopup('loadingPopup');
-                    console.error('Error loading data:', error);
-                    showMessage('Error', 'Failed to load data from server.', 'error');
-                });
+            google.script.run
+                .withSuccessHandler(handleData)
+                .withFailureHandler(handleError)
+                .getSheetData();
         }
 
         function handleData(data) {
+            hidePopup('loadingPopup');
             if (data && data.components) {
                 componentsData = data.components;
                 categoriesData = data.categories || [];
@@ -428,18 +1354,13 @@
                 // Show/hide empty state
                 const emptyState = document.getElementById('emptyState');
                 const componentsGrid = document.getElementById('componentsGrid');
-                const cardsContainer = document.getElementById('cardsContainer');
 
                 if (componentsData.length === 0) {
                     emptyState.classList.remove('hidden');
                     componentsGrid.classList.add('hidden');
-                    cardsContainer.classList.add('flex', 'items-center', 'justify-center');
-                    cardsContainer.classList.remove('max-h-[70vh]');
                 } else {
                     emptyState.classList.add('hidden');
                     componentsGrid.classList.remove('hidden');
-                    cardsContainer.classList.remove('flex', 'items-center', 'justify-center');
-                    cardsContainer.classList.add('max-h-[70vh]');
                 }
             }
         }
@@ -471,18 +1392,17 @@
                 const textColor = colorClasses.find(cls => cls.startsWith('text-')) || 'text-gray-700';
 
                 html +=
-                    '<div class="glass-card p-4 fade-in relative cursor-pointer hover:shadow-lg transition-shadow" ' +
-                    'style="animation-delay: ' + (index * 0.03) + 's" ' +
-                    'onclick="viewPrompt(' + component.id + ', event)">' +
+                    '<div class="glass-card p-4 fade-in relative" style="animation-delay: ' + (index * 0.03) + 's">' +
 
                     // Category badge and copy button
-                    '<div class="flex items-center justify-between mb-4" onclick="event.stopPropagation()">' +
+                    '<div class="flex items-center justify-between mb-4">' +
                     '<span class="badge-compact ' + bgColor + ' ' + textColor + '">' +
                     (component.category || 'General') +
                     '</span>' +
 
                     // Copy button
-                    '<button onclick="event.stopPropagation(); copyToClipboard(' + component.id + ')" ' +
+                    // In your component rendering code:
+                    '<button onclick="copyToClipboard(' + component.id + ')" ' +
                     'class="copy-btn px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-300 ' +
                     'bg-purple-50 text-purple-600 border-purple-100 ' +
                     'hover:bg-purple-100 hover:border-purple-200 ' +
@@ -501,7 +1421,7 @@
                     (hasImage ?
                         '<img src="' + component.imageUrl + '" alt="Preview" class="w-full h-full object-cover" ' +
                         'onload="this.style.opacity=1" ' +
-                        'onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<div class="h-full flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>\';" />' :
+                        'onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<div class=\\\'h-full flex items-center justify-center\\\'><svg xmlns=\\\'http://www.w3.org/2000/svg\\\' class=\\\'h-8 w-8 text-gray-300\\\' fill=\\\'none\\\' viewBox=\\\'0 0 24 24\\\' stroke=\\\'currentColor\\\'><path stroke-linecap=\\\'round\\\' stroke-linejoin=\\\'round\\\' stroke-width=\\\'1\\\' d=\\\'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\\\'/></svg></div>\';" />' :
                         '<div class="h-full flex items-center justify-center">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
                         '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />' +
@@ -509,14 +1429,14 @@
                         '</div>') +
                     '</div>' +
 
-                    // Action icons
+                    // Action icons (hidden by default)
                     '<div class="action-icons" id="actionIcons-' + component.id + '">' +
-                    '<button onclick="event.stopPropagation(); editComponent(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Edit">' +
+                    '<button onclick="editComponent(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Edit">' +
                     '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">' +
                     '<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />' +
                     '</svg>' +
                     '</button>' +
-                    '<button onclick="event.stopPropagation(); confirmDelete(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Delete">' +
+                    '<button onclick="confirmDelete(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Delete">' +
                     '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" viewBox="0 0 20 20" fill="currentColor">' +
                     '<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />' +
                     '</svg>' +
@@ -528,10 +1448,13 @@
                     '<span class="text-xs font-medium text-gray-600">' + (component.tag || 'Untagged') + '</span>' +
                     '<span class="text-xs text-gray-400">#' + component.id + '</span>' +
                     '</div>' +
+
                     '</div>';
             });
 
             grid.innerHTML = html;
+
+            // Update action icons visibility
             updateActionIconsVisibility();
         }
 
@@ -554,7 +1477,11 @@
             if (data.lastUpdated) {
                 const date = new Date(data.lastUpdated);
                 document.getElementById('lastUpdated').textContent =
-                    date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+                    date.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                    });
             }
         }
 
@@ -562,6 +1489,7 @@
             // Search with debounce
             const searchInput = document.getElementById('searchInput');
             let searchTimeout;
+
             searchInput.addEventListener('input', function (e) {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(function () {
@@ -582,11 +1510,19 @@
             });
 
             // Add buttons
-            document.getElementById('addNewBtn').addEventListener('click', openModal);
-            document.getElementById('addFirstBtn').addEventListener('click', openModal);
+            document.getElementById('addNewBtn').addEventListener('click', function () {
+                openModal();
+            });
+
+            document.getElementById('addFirstBtn').addEventListener('click', function () {
+                openModal();
+            });
 
             // Refresh button
-            document.getElementById('refreshBtn').addEventListener('click', loadData);
+            document.getElementById('refreshBtn').addEventListener('click', function () {
+                loadData();
+                // showMessage('Refreshing', 'Fetching latest data...', 'info');
+            });
 
             // Confirm popup buttons
             document.getElementById('confirmCancel').addEventListener('click', function () {
@@ -616,6 +1552,7 @@
         }
 
         function setupDropdowns() {
+            // Close dropdowns when clicking outside
             document.addEventListener('click', function (e) {
                 if (!e.target.closest('.custom-dropdown')) {
                     document.querySelectorAll('.dropdown-content').forEach(function (dropdown) {
@@ -631,12 +1568,14 @@
             const dropdown = document.getElementById(dropdownId);
             const isShowing = dropdown.classList.contains('show');
 
+            // Close all dropdowns
             document.querySelectorAll('.dropdown-content').forEach(function (d) {
                 d.classList.remove('show');
                 const arrow = d.previousElementSibling.querySelector('svg');
                 if (arrow) arrow.style.transform = 'rotate(0)';
             });
 
+            // Toggle current dropdown
             if (!isShowing) {
                 dropdown.classList.add('show');
                 const arrow = dropdown.previousElementSibling.querySelector('svg');
@@ -694,7 +1633,10 @@
             document.getElementById('messageText').textContent = text;
             showPopup('messagePopup');
 
-            setTimeout(() => { hidePopup('messagePopup'); }, 3000);
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                hidePopup('messagePopup');
+            }, 3000);
         }
 
         function openModal(componentId) {
@@ -705,6 +1647,7 @@
                 title.textContent = 'Edit Design';
                 document.getElementById('componentId').value = componentId;
 
+                // Find and populate component data
                 const component = componentsData.find(c => c.id === componentId);
                 if (component) {
                     document.getElementById('promptInput').value = component.prompt;
@@ -712,8 +1655,10 @@
                     document.getElementById('keywordsInput').value = Array.isArray(component.keywords) ?
                         component.keywords.join(', ') : '';
 
+                    // Set category
                     document.getElementById('selectedCategory').textContent = component.category || 'Select Category';
                     document.getElementById('categoryInput').value = component.category || '';
+
                     document.getElementById('tagInput').value = component.tag;
                 }
             } else {
@@ -728,54 +1673,6 @@
             showPopup('componentModal');
         }
 
-        function viewPrompt(id, event) {
-            if (event.target.closest('.action-icons') || event.target.closest('.copy-btn') || event.target.closest('button')) {
-                return;
-            }
-
-            const component = componentsData.find(c => c.id === id);
-            if (!component) return;
-
-            document.getElementById('viewPromptTitle').textContent =
-                component.prompt.substring(0, 60) + (component.prompt.length > 60 ? '...' : '');
-            document.getElementById('viewPromptContent').textContent = component.prompt;
-            document.getElementById('viewPromptCategory').textContent = component.category || 'General';
-            document.getElementById('viewPromptTag').textContent = '#' + component.tag;
-
-            const keywords = Array.isArray(component.keywords) ?
-                component.keywords.join(', ') :
-                (component.keywords || 'No keywords');
-            document.getElementById('viewPromptKeywords').textContent = keywords;
-
-            const imageContainer = document.getElementById('viewPromptImage');
-            if (component.imageUrl && component.imageUrl.startsWith('http')) {
-                imageContainer.innerHTML = `
-                    <img src="${component.imageUrl}" 
-                         alt="Preview" 
-                         class="w-full h-full object-cover"
-                         onerror="this.style.display='none';">
-                `;
-            } else {
-                imageContainer.innerHTML = `
-                    <div class="h-32 flex items-center justify-center bg-gray-100 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                `;
-            }
-
-            currentViewPrompt = component.prompt;
-            showPopup('viewPromptModal');
-        }
-
-        function copyViewPrompt() {
-            if (currentViewPrompt) {
-                copyTextToClipboard(currentViewPrompt);
-                showMessage('Copied', 'Prompt copied to clipboard', 'success');
-            }
-        }
-
         function editComponent(id) {
             openModal(id);
         }
@@ -787,30 +1684,21 @@
 
         function deleteComponent(id) {
             showPopup('loadingPopup');
-            
-            const formData = new URLSearchParams();
-            formData.append('action', 'delete');
-            formData.append('data', JSON.stringify({ id: id }));
-            
-            fetch(WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(result => {
-                hidePopup('loadingPopup');
-                if (result.success) {
-                    loadData();
-                    showMessage('Success', 'Design deleted successfully', 'success');
-                } else {
-                    showMessage('Error', result.message || 'Delete failed', 'error');
-                }
-            })
-            .catch(error => {
-                hidePopup('loadingPopup');
-                showMessage('Error', error.message, 'error');
-            });
+            google.script.run
+                .withSuccessHandler(function (result) {
+                    hidePopup('loadingPopup');
+                    if (result.success) {
+                        loadData();
+                        showMessage('Success', 'Design deleted successfully', 'success');
+                    } else {
+                        showMessage('Error', result.message, 'error');
+                    }
+                })
+                .withFailureHandler(function (error) {
+                    hidePopup('loadingPopup');
+                    showMessage('Error', error.message, 'error');
+                })
+                .deleteComponent(id);
         }
 
         function saveComponent() {
@@ -829,31 +1717,18 @@
             }
 
             showPopup('loadingPopup');
-            
-            const formData = new URLSearchParams();
-            formData.append('action', 'save');
-            formData.append('data', JSON.stringify(componentData));
-            
-            fetch(WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(result => {
-                hidePopup('componentModal');
-                hidePopup('loadingPopup');
-                if (result.success) {
+            google.script.run
+                .withSuccessHandler(function (result) {
+                    hidePopup('componentModal');
+                    hidePopup('loadingPopup');
                     loadData();
                     showMessage('Success', result.message, 'success');
-                } else {
-                    showMessage('Error', result.message || 'Save failed', 'error');
-                }
-            })
-            .catch(error => {
-                hidePopup('loadingPopup');
-                showMessage('Error', error.message, 'error');
-            });
+                })
+                .withFailureHandler(function (error) {
+                    hidePopup('loadingPopup');
+                    showMessage('Error', error.message, 'error');
+                })
+                .saveComponent(componentData);
         }
 
         function copyToClipboard(id) {
@@ -863,13 +1738,16 @@
 
                 const button = event.target.closest('.copy-btn');
                 if (button) {
+                    // Trigger the fade animation
                     button.classList.add('bg-green-50', 'text-green-600', 'border-green-200');
                     button.classList.remove('bg-purple-50', 'text-purple-600', 'border-purple-100', 'hover:bg-purple-100', 'hover:border-purple-200');
 
+                    // Animate text
                     button.querySelector('.copy-text').classList.add('opacity-0', 'translate-y-full');
                     button.querySelector('.copied-text').classList.remove('opacity-0', '-translate-y-full');
                     button.querySelector('.copied-text').classList.add('opacity-100', 'translate-y-0');
 
+                    // Revert after 1 second
                     setTimeout(() => {
                         button.classList.remove('bg-green-50', 'text-green-600', 'border-green-200');
                         button.classList.add('bg-purple-50', 'text-purple-600', 'border-purple-100', 'hover:bg-purple-100', 'hover:border-purple-200');
@@ -884,13 +1762,18 @@
             }
         }
 
+
         function copyModalPrompt() {
             const prompt = document.getElementById('promptInput').value;
             if (prompt) {
                 copyTextToClipboard(prompt);
+
+                // optional smooth button animation
                 const btn = event.currentTarget;
                 btn.classList.add('bg-green-100', 'text-green-700', 'scale-105');
                 setTimeout(() => btn.classList.remove('bg-green-100', 'text-green-700', 'scale-105'), 600);
+
+                // show message using your existing function
                 showMessage('Copied', 'Prompt copied to clipboard', 'success');
             }
         }
@@ -908,17 +1791,22 @@
             const dropdown = document.getElementById('categoryDropdown');
             const categories = new Set();
 
+            // Add categories from existing components
             components.forEach(function (c) {
                 if (c.category) categories.add(c.category);
             });
 
+            // Add default categories if none exist
             if (categories.size === 0) {
                 ['UI Design', 'Dashboard', 'Mobile UI', 'Web Design', 'UI Components'].forEach(function (cat) {
                     categories.add(cat);
                 });
             }
 
+            // Clear existing options
             dropdown.innerHTML = '';
+
+            // Add options
             Array.from(categories).sort().forEach(function (category) {
                 const option = document.createElement('div');
                 option.className = 'dropdown-option';
@@ -936,11 +1824,10 @@
         window.copyToClipboard = copyToClipboard;
         window.confirmDelete = confirmDelete;
         window.editComponent = editComponent;
-        window.viewPrompt = viewPrompt;
-        window.copyViewPrompt = copyViewPrompt;
         window.toggleDropdown = toggleDropdown;
         window.hidePopup = hidePopup;
         window.copyModalPrompt = copyModalPrompt;
     </script>
 </body>
+
 </html>
