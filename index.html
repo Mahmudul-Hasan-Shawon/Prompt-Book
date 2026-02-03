@@ -466,6 +466,16 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
+
+
+        /* Simple Custom Scrollbar */
+        /* Minimalist auto-hide scrollbar */
+
+        /* Hide scrollbar completely for all elements */
+
+        /* For Webkit browsers (Chrome, Edge, Safari) */
+
+
         /* Scrollbar base */
         body {
             overflow: auto;
@@ -479,6 +489,7 @@
 
         ::-webkit-scrollbar-track {
             background: transparent;
+            /* Hide track */
         }
 
         ::-webkit-scrollbar-thumb {
@@ -488,9 +499,14 @@
             transition: opacity 0.5s;
         }
 
+        /* Optional: slightly darker on hover */
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(139, 92, 246, 0.7);
         }
+
+
+
+
 
         /* Thin scrollbar */
         .thin-scrollbar::-webkit-scrollbar {
@@ -592,18 +608,6 @@
 
         .modal-overlay.active .modal-content {
             transform: scale(1);
-        }
-
-        /* Smooth modal transition for view prompt */
-        #viewPromptModal .modal-content {
-            transform: translateY(20px) scale(0.98);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        #viewPromptModal.active .modal-content {
-            transform: translateY(0) scale(1);
-            opacity: 1;
         }
     </style>
     <style>
@@ -903,7 +907,307 @@
         </div>
     </div>
 
-    <!-- Component Modal -->
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto relative z-10">
+        <!-- Header -->
+        <header class="mb-4 fade-in">
+            <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="relative flex items-center justify-start h-24">
+                    <!-- Animated title -->
+                    <h1 class="text-4xl md:text-5xl font-bold">
+                        <span
+                            class="bg-gradient-to-r from-purple-600 via-pink-500 to-violet-600 bg-clip-text text-transparent animate-gradient-x">
+                            UI Prompt Library
+                        </span>
+                    </h1>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- Edit Mode Toggle -->
+                    <div class="flex items-center gap-2 px-3 py-2 glass-panel rounded-2xl">
+                        <span class="text-gray-700 text-sm font-medium">Edit Mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="actionToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2">
+                        <button id="refreshBtn" class="btn-compact flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Refresh
+                        </button>
+                        <button id="addNewBtn" class="btn-compact btn-primary flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Add New
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <!-- <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10 fade-in" style="animation-delay: 0.1s">
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Total Components</p>
+                            <h3 id="totalCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-purple-500 bg-purple-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Active designs in your library</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Categories</p>
+                            <h3 id="categoryCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-emerald-500 bg-emerald-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Different UI categories</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Tags</p>
+                            <h3 id="tagCount" class="text-3xl font-bold text-gray-800">0</h3>
+                        </div>
+                        <div class="text-blue-500 bg-blue-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Unique design tags</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Last Updated</p>
+                            <h3 id="lastUpdated" class="text-xl font-bold text-gray-800">-</h3>
+                        </div>
+                        <div class="text-amber-500 bg-amber-50 p-3 rounded-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500">Data synchronization</p>
+                    </div>
+                </div>
+            </div> -->
+
+        </header>
+
+        <!-- Main Content -->
+         
+        <!-- Main Content -->
+<div class="glass-panel p-5 md:p-6 mb-6 fade-in relative flex flex-col justify-center min-h-[200px]" style="animation-delay: 0.1s">
+    
+    <!-- Centered Content Wrapper: 50% / 50% Layout -->
+    <div class="px-5 flex flex-col xl:flex-row gap-8 items-center justify-center w-full">
+        
+        <!-- LEFT: Search Bar (Centered in 50% width) -->
+        <div class="w-full xl:w-1/2 flex justify-center">
+            <div class="w-full max-w-2xl">
+                <div class="relative rounded-full overflow-hidden animate-border-glow">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent animate-gradient-flow opacity-20"></div>
+                    <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                        <div class="relative">
+                            <div class="absolute -inset-2 rounded-full blur-md animate-icon-pulse"></div>
+                            <svg class="relative h-5 w-5 animate-icon-glow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <input type="text" id="searchInput" class="relative w-full pl-12 pr-6 py-3.5 bg-transparent rounded-full focus:outline-none text-gray-800 placeholder-gray-500 transition-all duration-300" placeholder="Search prompts...">
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Stats Grid (Centered in 50% width, Icons Left - Text Right) -->
+        <div class="w-full xl:w-1/2 flex justify-center h-full items-center">
+            <div class="grid grid-cols-4 gap-3 w-full max-w-2xl">
+                
+                <!-- Stat 1: Total Components -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-purple-100/50 flex items-center justify-center flex-shrink-0 text-purple-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="totalCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Total</p>
+                    </div>
+                </div>
+
+                <!-- Stat 2: Categories -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-emerald-100/50 flex items-center justify-center flex-shrink-0 text-emerald-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="categoryCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Types</p>
+                    </div>
+                </div>
+
+                <!-- Stat 3: Tags -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-blue-100/50 flex items-center justify-center flex-shrink-0 text-blue-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="tagCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Tags</p>
+                    </div>
+                </div>
+
+                <!-- Stat 4: Last Updated -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-amber-100/50 flex items-center justify-center flex-shrink-0 text-amber-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="lastUpdated" class="text-sm font-bold text-gray-800 leading-tight">-</h3>
+                        <!-- <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Time</p> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards Container with Scroll (Below Search & Stats) -->
+    <div id="cardsContainer" class="max-h-[70vh] overflow-y-auto thin-scrollbar p-5 mt-6">
+        <!-- Cards Grid -->
+        <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Loading skeleton -->
+            <div class="col-span-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden col-span-full py-12 text-center">
+            <div class="text-gray-300 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">No designs found</h3>
+            <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Try adjusting your search or add your first design component</p>
+            <button id="addFirstBtn" class="btn-compact btn-primary px-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                Add Design
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Styles for the one-row stat items */
+    .stat-row-item {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+
+    .stat-row-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border-color: rgba(255,255,255,0.8);
+    }
+</style>
+
+    <!-- Modal -->
     <div id="componentModal" class="popup-overlay">
         <div class="modal-content p-6">
             <div class="flex justify-between items-center mb-6">
@@ -1014,295 +1318,12 @@
         </div>
     </div>
 
-    <!-- View Prompt Modal -->
-    <div id="viewPromptModal" class="popup-overlay">
-        <div class="modal-content p-6 max-w-2xl">
-            <div class="flex justify-between items-start mb-6">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800" id="viewPromptTitle">Prompt Details</h3>
-                    <div class="flex items-center gap-2 mt-2">
-                        <span id="viewPromptCategory" class="badge-compact bg-gray-100 text-gray-700"></span>
-                        <span id="viewPromptTag" class="text-xs text-gray-500"></span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="copyViewPrompt()"
-                        class="p-2 rounded-lg bg-purple-50 text-purple-600 hover:bg-purple-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                    </button>
-                    <button onclick="hidePopup('viewPromptModal')"
-                        class="p-2 rounded-lg text-gray-400 hover:bg-gray-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-gray-50 rounded-xl p-5 mb-4">
-                <p id="viewPromptContent" class="text-gray-700 whitespace-pre-wrap leading-relaxed"></p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div class="bg-white rounded-lg p-4 border border-gray-100">
-                    <p class="text-gray-500 mb-1">Keywords</p>
-                    <p id="viewPromptKeywords" class="font-medium text-gray-700"></p>
-                </div>
-                <div class="bg-white rounded-lg p-4 border border-gray-100">
-                    <p class="text-gray-500 mb-1">Image Preview</p>
-                    <div id="viewPromptImage" class="mt-2 rounded-lg overflow-hidden max-h-40"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Container -->
-    <div class="max-w-7xl mx-auto relative z-10">
-        <!-- Header -->
-        <header class="mb-4 fade-in">
-            <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-center">
-                <div class="relative flex items-center justify-start h-24">
-                    <!-- Animated title -->
-                    <h1 class="text-4xl md:text-5xl font-bold">
-                        <span
-                            class="bg-gradient-to-r from-purple-600 via-pink-500 to-violet-600 bg-clip-text text-transparent animate-gradient-x">
-                            UI Prompt Library
-                        </span>
-                    </h1>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-3">
-                    <!-- Edit Mode Toggle -->
-                    <div class="flex items-center gap-2 px-3 py-2 glass-panel rounded-2xl">
-                        <span class="text-gray-700 text-sm font-medium">Edit Mode</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="actionToggle">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex gap-2">
-                        <button id="refreshBtn" class="btn-compact flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            Refresh
-                        </button>
-                        <button id="addNewBtn" class="btn-compact btn-primary flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            Add New
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <div class="glass-panel p-5 md:p-6 mb-6 fade-in relative flex flex-col justify-center min-h-[200px]"
-            style="animation-delay: 0.1s">
-
-            <!-- Centered Content Wrapper: 50% / 50% Layout -->
-            <div class="px-5 flex flex-col xl:flex-row gap-8 items-center justify-center w-full">
-
-                <!-- LEFT: Search Bar (Centered in 50% width) -->
-                <div class="w-full xl:w-1/2 flex justify-center">
-                    <div class="w-full max-w-2xl">
-                        <div class="relative rounded-full overflow-hidden animate-border-glow">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent animate-gradient-flow opacity-20">
-                            </div>
-                            <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
-                                <div class="relative">
-                                    <div class="absolute -inset-2 rounded-full blur-md animate-icon-pulse"></div>
-                                    <svg class="relative h-5 w-5 animate-icon-glow" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <input type="text" id="searchInput"
-                                class="relative w-full pl-12 pr-6 py-3.5 bg-transparent rounded-full focus:outline-none text-gray-800 placeholder-gray-500 transition-all duration-300"
-                                placeholder="Search prompts...">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT: Stats Grid (Centered in 50% width, Icons Left - Text Right) -->
-                <div class="w-full xl:w-1/2 flex justify-center h-full items-center">
-                    <div class="grid grid-cols-4 gap-3 w-full max-w-2xl">
-
-                        <!-- Stat 1: Total Components -->
-                        <div
-                            class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <!-- Left Icon -->
-                            <div
-                                class="w-8 h-8 rounded-lg bg-purple-100/50 flex items-center justify-center flex-shrink-0 text-purple-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path
-                                        d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                                </svg>
-                            </div>
-                            <!-- Right Text -->
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="totalCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
-                                <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Total</p>
-                            </div>
-                        </div>
-
-                        <!-- Stat 2: Categories -->
-                        <div
-                            class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <!-- Left Icon -->
-                            <div
-                                class="w-8 h-8 rounded-lg bg-emerald-100/50 flex items-center justify-center flex-shrink-0 text-emerald-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <!-- Right Text -->
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="categoryCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
-                                <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Types</p>
-                            </div>
-                        </div>
-
-                        <!-- Stat 3: Tags -->
-                        <div
-                            class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <!-- Left Icon -->
-                            <div
-                                class="w-8 h-8 rounded-lg bg-blue-100/50 flex items-center justify-center flex-shrink-0 text-blue-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <!-- Right Text -->
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="tagCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
-                                <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Tags</p>
-                            </div>
-                        </div>
-
-                        <!-- Stat 4: Last Updated -->
-                        <div
-                            class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
-                            <!-- Left Icon -->
-                            <div
-                                class="w-8 h-8 rounded-lg bg-amber-100/50 flex items-center justify-center flex-shrink-0 text-amber-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <!-- Right Text -->
-                            <div class="flex flex-col items-end text-right">
-                                <h3 id="lastUpdated" class="text-sm font-bold text-gray-800 leading-tight">-</h3>
-                                <!-- <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Time</p> -->
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cards Container with Scroll (Below Search & Stats) -->
-            <div id="cardsContainer" class="max-h-[70vh] overflow-y-auto thin-scrollbar p-5 mt-6">
-                <!-- Cards Grid -->
-                <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Loading skeleton -->
-                    <div class="col-span-full">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="glass-card p-4 animate-pulse">
-                                <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                                <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                                <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                                <div class="flex justify-between">
-                                    <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                    <div class="h-6 bg-gray-200 rounded w-6"></div>
-                                </div>
-                            </div>
-                            <div class="glass-card p-4 animate-pulse">
-                                <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                                <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                                <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                                <div class="flex justify-between">
-                                    <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                    <div class="h-6 bg-gray-200 rounded w-6"></div>
-                                </div>
-                            </div>
-                            <div class="glass-card p-4 animate-pulse">
-                                <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                                <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                                <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                                <div class="flex justify-between">
-                                    <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                    <div class="h-6 bg-gray-200 rounded w-6"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Empty State -->
-                <div id="emptyState" class="hidden col-span-full py-12 text-center">
-                    <div class="text-gray-300 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">No designs found</h3>
-                    <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Try adjusting your search or add your first
-                        design component</p>
-                    <button id="addFirstBtn" class="btn-compact btn-primary px-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        Add Design
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Global variables
         let componentsData = [];
         let categoriesData = [];
         let showActions = false;
         let currentDeleteId = null;
-        let currentViewPrompt = '';
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function () {
@@ -1312,51 +1333,14 @@
             setupDropdowns();
         });
 
-        // NEW CODE for GitHub Pages:
         function loadData() {
-  showPopup('loadingPopup');
-  
-  // Try web app
-  const webAppUrl = 'https://script.google.com/macros/s/AKfycby5d5y9Ffw2SrzhEM1OrvLAIg0UQ6zKnyyIJYoSXP02YRoaBQYDaijbPEMhjc1LdsCMyQ/exec?action=getData';
-  
-  fetch(webAppUrl)
-    .then(response => {
-      if (!response.ok) throw new Error('Web app failed');
-      return response.json();
-    })
-    .then(data => {
-      hidePopup('loadingPopup');
-      handleData(data);
-    })
-    .catch(error => {
-      console.log('Trying local fallback...');
-      // Fallback to local data
-      fetch('./data.json')
-        .then(r => r.json())
-        .then(data => {
-          hidePopup('loadingPopup');
-          handleData(data);
-          showMessage('Info', 'Using local backup data', 'info');
-        })
-        .catch(err => {
-          hidePopup('loadingPopup');
-          showMessage('Error', 'No data available', 'error');
-        });
-    });
-}
-
-        // Optional: Fallback to local data
-        function loadLocalFallback() {
-            fetch('./data/fallback.json')
-                .then(response => response.json())
-                .then(data => {
-                    handleData(data);
-                    showMessage('Info', 'Loaded from local backup', 'info');
-                })
-                .catch(error => {
-                    console.error('Fallback also failed:', error);
-                });
+            showPopup('loadingPopup');
+            google.script.run
+                .withSuccessHandler(handleData)
+                .withFailureHandler(handleError)
+                .getSheetData();
         }
+
         function handleData(data) {
             hidePopup('loadingPopup');
             if (data && data.components) {
@@ -1408,18 +1392,17 @@
                 const textColor = colorClasses.find(cls => cls.startsWith('text-')) || 'text-gray-700';
 
                 html +=
-                    '<div class="glass-card p-4 fade-in relative cursor-pointer hover:shadow-lg transition-shadow" ' +
-                    'style="animation-delay: ' + (index * 0.03) + 's" ' +
-                    'onclick="viewPrompt(' + component.id + ', event)">' +
+                    '<div class="glass-card p-4 fade-in relative" style="animation-delay: ' + (index * 0.03) + 's">' +
 
                     // Category badge and copy button
-                    '<div class="flex items-center justify-between mb-4" onclick="event.stopPropagation()">' +
+                    '<div class="flex items-center justify-between mb-4">' +
                     '<span class="badge-compact ' + bgColor + ' ' + textColor + '">' +
                     (component.category || 'General') +
                     '</span>' +
 
                     // Copy button
-                    '<button onclick="event.stopPropagation(); copyToClipboard(' + component.id + ')" ' +
+                    // In your component rendering code:
+                    '<button onclick="copyToClipboard(' + component.id + ')" ' +
                     'class="copy-btn px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-300 ' +
                     'bg-purple-50 text-purple-600 border-purple-100 ' +
                     'hover:bg-purple-100 hover:border-purple-200 ' +
@@ -1448,12 +1431,12 @@
 
                     // Action icons (hidden by default)
                     '<div class="action-icons" id="actionIcons-' + component.id + '">' +
-                    '<button onclick="event.stopPropagation(); editComponent(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Edit">' +
+                    '<button onclick="editComponent(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Edit">' +
                     '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">' +
                     '<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />' +
                     '</svg>' +
                     '</button>' +
-                    '<button onclick="event.stopPropagation(); confirmDelete(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Delete">' +
+                    '<button onclick="confirmDelete(' + component.id + ')" class="p-2 rounded-lg bg-white hover:bg-gray-50 shadow-sm border border-gray-100" title="Delete">' +
                     '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" viewBox="0 0 20 20" fill="currentColor">' +
                     '<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />' +
                     '</svg>' +
@@ -1538,6 +1521,7 @@
             // Refresh button
             document.getElementById('refreshBtn').addEventListener('click', function () {
                 loadData();
+                // showMessage('Refreshing', 'Fetching latest data...', 'info');
             });
 
             // Confirm popup buttons
@@ -1689,63 +1673,6 @@
             showPopup('componentModal');
         }
 
-        function viewPrompt(id, event) {
-            // Don't trigger if clicking on action buttons or copy button
-            if (event.target.closest('.action-icons') ||
-                event.target.closest('.copy-btn') ||
-                event.target.closest('button')) {
-                return;
-            }
-
-            const component = componentsData.find(c => c.id === id);
-            if (!component) return;
-
-            // Populate modal
-            document.getElementById('viewPromptTitle').textContent =
-                component.prompt.substring(0, 60) + (component.prompt.length > 60 ? '...' : '');
-            document.getElementById('viewPromptContent').textContent = component.prompt;
-            document.getElementById('viewPromptCategory').textContent = component.category || 'General';
-            document.getElementById('viewPromptTag').textContent = '#' + component.tag;
-
-            // Keywords
-            const keywords = Array.isArray(component.keywords) ?
-                component.keywords.join(', ') :
-                (component.keywords || 'No keywords');
-            document.getElementById('viewPromptKeywords').textContent = keywords;
-
-            // Image
-            const imageContainer = document.getElementById('viewPromptImage');
-            if (component.imageUrl && component.imageUrl.startsWith('http')) {
-                imageContainer.innerHTML = `
-                    <img src="${component.imageUrl}" 
-                         alt="Preview" 
-                         class="w-full h-full object-cover"
-                         onerror="this.style.display='none';">
-                `;
-            } else {
-                imageContainer.innerHTML = `
-                    <div class="h-32 flex items-center justify-center bg-gray-100 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                `;
-            }
-
-            // Store current prompt for copying
-            currentViewPrompt = component.prompt;
-
-            // Show modal
-            showPopup('viewPromptModal');
-        }
-
-        function copyViewPrompt() {
-            if (currentViewPrompt) {
-                copyTextToClipboard(currentViewPrompt);
-                showMessage('Copied', 'Prompt copied to clipboard', 'success');
-            }
-        }
-
         function editComponent(id) {
             openModal(id);
         }
@@ -1755,24 +1682,10 @@
             showPopup('confirmPopup');
         }
 
-        // NEW CODE:
         function deleteComponent(id) {
             showPopup('loadingPopup');
-
-            const webAppUrl = 'https://script.google.com/macros/s/AKfycby5d5y9Ffw2SrzhEM1OrvLAIg0UQ6zKnyyIJYoSXP02YRoaBQYDaijbPEMhjc1LdsCMyQ/exec';
-
-            fetch(webAppUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    action: 'delete',
-                    data: JSON.stringify({ id: id })
-                })
-            })
-                .then(response => response.json())
-                .then(result => {
+            google.script.run
+                .withSuccessHandler(function (result) {
                     hidePopup('loadingPopup');
                     if (result.success) {
                         loadData();
@@ -1781,13 +1694,13 @@
                         showMessage('Error', result.message, 'error');
                     }
                 })
-                .catch(error => {
+                .withFailureHandler(function (error) {
                     hidePopup('loadingPopup');
                     showMessage('Error', error.message, 'error');
-                });
+                })
+                .deleteComponent(id);
         }
 
-        // NEW CODE:
         function saveComponent() {
             const componentData = {
                 id: document.getElementById('componentId').value,
@@ -1804,61 +1717,18 @@
             }
 
             showPopup('loadingPopup');
-
-            const webAppUrl = 'https://script.google.com/macros/s/AKfycby5d5y9Ffw2SrzhEM1OrvLAIg0UQ6zKnyyIJYoSXP02YRoaBQYDaijbPEMhjc1LdsCMyQ/exec';
-
-            fetch(webAppUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    action: 'save',
-                    data: JSON.stringify(componentData)
-                })
-            })
-                .then(response => response.json())
-                .then(result => {
+            google.script.run
+                .withSuccessHandler(function (result) {
                     hidePopup('componentModal');
                     hidePopup('loadingPopup');
-                    loadData(); // Reload the data
+                    loadData();
                     showMessage('Success', result.message, 'success');
                 })
-                .catch(error => {
+                .withFailureHandler(function (error) {
                     hidePopup('loadingPopup');
                     showMessage('Error', error.message, 'error');
-                });
-        }
-
-        function deleteComponent(id) {
-            showPopup('loadingPopup');
-
-            const webAppUrl = 'https://script.google.com/macros/s/AKfycby5d5y9Ffw2SrzhEM1OrvLAIg0UQ6zKnyyIJYoSXP02YRoaBQYDaijbPEMhjc1LdsCMyQ/exec';
-
-            fetch(webAppUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    action: 'delete',
-                    data: JSON.stringify({ id: id })
                 })
-            })
-                .then(response => response.json())
-                .then(result => {
-                    hidePopup('loadingPopup');
-                    if (result.success) {
-                        loadData();
-                        showMessage('Success', 'Design deleted successfully', 'success');
-                    } else {
-                        showMessage('Error', result.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    hidePopup('loadingPopup');
-                    showMessage('Error', error.message, 'error');
-                });
+                .saveComponent(componentData);
         }
 
         function copyToClipboard(id) {
@@ -1891,6 +1761,7 @@
                 }
             }
         }
+
 
         function copyModalPrompt() {
             const prompt = document.getElementById('promptInput').value;
@@ -1953,8 +1824,6 @@
         window.copyToClipboard = copyToClipboard;
         window.confirmDelete = confirmDelete;
         window.editComponent = editComponent;
-        window.viewPrompt = viewPrompt;
-        window.copyViewPrompt = copyViewPrompt;
         window.toggleDropdown = toggleDropdown;
         window.hidePopup = hidePopup;
         window.copyModalPrompt = copyModalPrompt;

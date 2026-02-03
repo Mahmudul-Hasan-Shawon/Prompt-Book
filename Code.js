@@ -1,77 +1,5 @@
-// Updated Code.gs with multiple endpoint support
-function doGet(e) {
-  // Check if it's a JSON request
-  if (e && e.parameter && e.parameter.action === 'getData') {
-    return getDataJSON();
-  }
-
-  // Otherwise serve the HTML app
-  return serveHTML();
-}
-
-function doPost(e) {
-  try {
-    // Parse the parameters
-    const params = e.parameter;
-    let data;
-
-    if (e.postData && e.postData.contents) {
-      // Parse from POST body
-      data = JSON.parse(e.postData.contents);
-    } else {
-      // Parse from URL parameters
-      data = JSON.parse(params.data || '{}');
-    }
-
-    const action = params.action;
-
-    switch (action) {
-      case 'save':
-        const saveResult = saveComponent(data);
-        return ContentService
-          .createTextOutput(JSON.stringify(saveResult))
-          .setMimeType(ContentService.MimeType.JSON);
-
-      case 'delete':
-        const deleteResult = deleteComponent(data.id);
-        return ContentService
-          .createTextOutput(JSON.stringify(deleteResult))
-          .setMimeType(ContentService.MimeType.JSON);
-
-      default:
-        return ContentService
-          .createTextOutput(JSON.stringify({ error: 'Invalid action' }))
-          .setMimeType(ContentService.MimeType.JSON);
-    }
-  } catch (error) {
-    console.error('Error in doPost:', error);
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        success: false,
-        error: error.message
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function getDataJSON() {
-  try {
-    const data = getSheetData();
-    return ContentService
-      .createTextOutput(JSON.stringify(data))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
-  } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        error: error.message
-      }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
-  }
-}
-
-function serveHTML() {
+// Code.gs - Enhanced with better data handling
+function doGet() {
   var html = HtmlService.createTemplateFromFile("index");
   var evaluated = html.evaluate();
   evaluated.addMetaTag("viewport", "width=device-width, initial-scale=1");
@@ -80,8 +8,6 @@ function serveHTML() {
     .setFaviconUrl("https://cdn-icons-png.flaticon.com/512/12133/12133548.png")
     .setTitle("Glassmorphism UI Manager");
 }
-// Keep all your existing functions...
-
 
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
