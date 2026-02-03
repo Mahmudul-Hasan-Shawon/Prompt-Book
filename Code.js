@@ -1,27 +1,29 @@
 // Updated Code.gs with multiple endpoint support
 function doGet(e) {
   // Check if it's a JSON request
-  // If request is for JSON data
   if (e && e.parameter && e.parameter.action === 'getData') {
     return getDataJSON();
   }
 
   // Otherwise serve the HTML app
-  var html = HtmlService.createTemplateFromFile("index");
-  var evaluated = html.evaluate();
-  evaluated.addMetaTag("viewport", "width=device-width, initial-scale=1");
-  return evaluated
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-    .setFaviconUrl("https://cdn-icons-png.flaticon.com/512/12133/12133548.png")
-    .setTitle("Glassmorphism UI Manager");
-
-  // Otherwise serve HTML (for running inside Apps Script)
   return serveHTML();
 }
+
 function doPost(e) {
   try {
-    const action = e.parameter.action;
-    const data = JSON.parse(e.parameter.data || e.postData.contents);
+    // Parse the parameters
+    const params = e.parameter;
+    let data;
+
+    if (e.postData && e.postData.contents) {
+      // Parse from POST body
+      data = JSON.parse(e.postData.contents);
+    } else {
+      // Parse from URL parameters
+      data = JSON.parse(params.data || '{}');
+    }
+
+    const action = params.action;
 
     switch (action) {
       case 'save':
@@ -42,8 +44,12 @@ function doPost(e) {
           .setMimeType(ContentService.MimeType.JSON);
     }
   } catch (error) {
+    console.error('Error in doPost:', error);
     return ContentService
-      .createTextOutput(JSON.stringify({ error: error.message }))
+      .createTextOutput(JSON.stringify({
+        success: false,
+        error: error.message
+      }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
@@ -53,11 +59,15 @@ function getDataJSON() {
     const data = getSheetData();
     return ContentService
       .createTextOutput(JSON.stringify(data))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader('Access-Control-Allow-Origin', '*');
   } catch (error) {
     return ContentService
-      .createTextOutput(JSON.stringify({ error: error.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .createTextOutput(JSON.stringify({
+        error: error.message
+      }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader('Access-Control-Allow-Origin', '*');
   }
 }
 
