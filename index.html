@@ -611,6 +611,40 @@
         }
     </style>
     <style>
+        @keyframes gradient-x {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes float-slow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .animate-gradient-x {
+            background-size: 200% auto;
+            animation: gradient-x 3s ease infinite;
+        }
+
+        .animate-float-slow {
+            animation: float-slow 4s ease-in-out infinite;
+        }
+    </style>
+    <style>
         .copy-btn[data-copied="true"] {
             background-color: rgb(240, 253, 244) !important;
             color: rgb(22, 163, 74) !important;
@@ -633,6 +667,170 @@
 
         .copy-btn[data-copied="true"] {
             animation: pulse-subtle 0.3s ease-in-out;
+        }
+    </style>
+    <style>
+        @keyframes gradient-flow {
+            0% {
+                background: linear-gradient(90deg,
+                        transparent 0%,
+                        rgba(96, 165, 250, 0.3) 25%,
+                        rgba(167, 139, 250, 0.3) 50%,
+                        rgba(248, 113, 113, 0.3) 75%,
+                        transparent 100%);
+                background-position: 200% 0;
+            }
+
+            50% {
+                background: linear-gradient(90deg,
+                        transparent 0%,
+                        rgba(248, 113, 113, 0.3) 25%,
+                        rgba(96, 165, 250, 0.3) 50%,
+                        rgba(167, 139, 250, 0.3) 75%,
+                        transparent 100%);
+                background-position: -200% 0;
+            }
+
+            100% {
+                background: linear-gradient(90deg,
+                        transparent 0%,
+                        rgba(167, 139, 250, 0.3) 25%,
+                        rgba(248, 113, 113, 0.3) 50%,
+                        rgba(96, 165, 250, 0.3) 75%,
+                        transparent 100%);
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes border-glow {
+            0% {
+                box-shadow:
+                    0 0 0 2px rgba(96, 165, 250, 0.2),
+                    0 0 20px rgba(96, 165, 250, 0.15),
+                    0 0 40px rgba(96, 165, 250, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            33% {
+                box-shadow:
+                    0 0 0 2px rgba(167, 139, 250, 0.2),
+                    0 0 20px rgba(167, 139, 250, 0.15),
+                    0 0 40px rgba(167, 139, 250, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            66% {
+                box-shadow:
+                    0 0 0 2px rgba(248, 113, 113, 0.2),
+                    0 0 20px rgba(248, 113, 113, 0.15),
+                    0 0 40px rgba(248, 113, 113, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 2px rgba(96, 165, 250, 0.2),
+                    0 0 20px rgba(96, 165, 250, 0.15),
+                    0 0 40px rgba(96, 165, 250, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        @keyframes icon-pulse {
+
+            0%,
+            100% {
+                background: rgba(96, 165, 250, 0.15);
+                transform: scale(0.95);
+            }
+
+            33% {
+                background: rgba(167, 139, 250, 0.15);
+                transform: scale(1.05);
+            }
+
+            66% {
+                background: rgba(248, 113, 113, 0.15);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes icon-glow {
+            0% {
+                filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+                color: rgba(96, 165, 250, 0.9);
+            }
+
+            33% {
+                filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.6));
+                color: rgba(167, 139, 250, 0.9);
+            }
+
+            66% {
+                filter: drop-shadow(0 0 4px rgba(248, 113, 113, 0.6));
+                color: rgba(248, 113, 113, 0.9);
+            }
+
+            100% {
+                filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+                color: rgba(96, 165, 250, 0.9);
+            }
+        }
+
+        .animate-gradient-flow {
+            animation: gradient-flow 10s linear infinite;
+            background-size: 300% 100%;
+        }
+
+        .animate-border-glow {
+            animation: border-glow 8s ease-in-out infinite;
+        }
+
+        .animate-icon-pulse {
+            animation: icon-pulse 8s ease-in-out infinite;
+        }
+
+        .animate-icon-glow {
+            animation: icon-glow 8s ease-in-out infinite;
+        }
+
+        /* Focus effects */
+        #searchInput:focus {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        #searchInput:focus+.animate-border-glow {
+            animation-duration: 4s;
+            animation-timing-function: ease-out;
+        }
+
+        /* Hover effects */
+        .animate-border-glow:hover {
+            animation-duration: 5s;
+        }
+
+        /* Placeholder styling */
+        #searchInput::placeholder {
+            color: rgba(107, 114, 128, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus::placeholder {
+            color: rgba(107, 114, 128, 0.4);
+            transform: translateX(5px);
+        }
+
+        /* Smooth transitions for all animated elements */
+        .animate-gradient-flow,
+        .animate-border-glow,
+        .animate-icon-pulse,
+        .animate-icon-glow {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Subtle pulse on hover */
+        #searchInput:hover~.animate-gradient-flow {
+            opacity: 0.3;
         }
     </style>
 </head>
@@ -712,7 +910,7 @@
     <!-- Main Container -->
     <div class="max-w-7xl mx-auto relative z-10">
         <!-- Header -->
-        <header class="mb-8 fade-in">
+        <header class="mb-4 fade-in">
             <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-center">
                 <div class="relative flex items-center justify-start h-24">
                     <!-- Animated title -->
@@ -723,42 +921,6 @@
                         </span>
                     </h1>
                 </div>
-
-
-                <style>
-                    @keyframes gradient-x {
-
-                        0%,
-                        100% {
-                            background-position: 0% 50%;
-                        }
-
-                        50% {
-                            background-position: 100% 50%;
-                        }
-                    }
-
-                    @keyframes float-slow {
-
-                        0%,
-                        100% {
-                            transform: translateY(0);
-                        }
-
-                        50% {
-                            transform: translateY(-3px);
-                        }
-                    }
-
-                    .animate-gradient-x {
-                        background-size: 200% auto;
-                        animation: gradient-x 3s ease infinite;
-                    }
-
-                    .animate-float-slow {
-                        animation: float-slow 4s ease-in-out infinite;
-                    }
-                </style>
 
                 <div class="flex flex-wrap items-center gap-3">
                     <!-- Edit Mode Toggle -->
@@ -795,7 +957,7 @@
             </div>
 
             <!-- Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10 fade-in" style="animation-delay: 0.1s">
+            <!-- <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10 fade-in" style="animation-delay: 0.1s">
                 <div class="glass-panel p-5">
                     <div class="flex items-center justify-between">
                         <div>
@@ -874,275 +1036,176 @@
                         <p class="text-xs text-gray-500">Data synchronization</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </header>
 
         <!-- Main Content -->
-        <div class="glass-panel p-4 md:p-6 mb-6 fade-in" style="animation-delay: 0.1s">
-
-            <!-- Search -->
-
-            <div class="relative pb-4 mb-4">
-                <!-- Main search container -->
+         
+        <!-- Main Content -->
+<div class="glass-panel p-5 md:p-6 mb-6 fade-in relative flex flex-col justify-center min-h-[200px]" style="animation-delay: 0.1s">
+    
+    <!-- Centered Content Wrapper: 50% / 50% Layout -->
+    <div class="px-5 flex flex-col xl:flex-row gap-8 items-center justify-center w-full">
+        
+        <!-- LEFT: Search Bar (Centered in 50% width) -->
+        <div class="w-full xl:w-1/2 flex justify-center">
+            <div class="w-full max-w-2xl">
                 <div class="relative rounded-full overflow-hidden animate-border-glow">
-                    <!-- Smooth gradient animation in background -->
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent animate-gradient-flow opacity-20">
-                    </div>
-
-                    <!-- Glass effect overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent animate-gradient-flow opacity-20"></div>
                     <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
-
-                    <!-- Search icon container -->
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
                         <div class="relative">
-                            <!-- Icon glow ring -->
                             <div class="absolute -inset-2 rounded-full blur-md animate-icon-pulse"></div>
-                            <!-- Search icon -->
-                            <svg class="relative h-5 w-5 animate-icon-glow" xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                    clip-rule="evenodd" />
+                            <svg class="relative h-5 w-5 animate-icon-glow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                             </svg>
                         </div>
                     </div>
-
-                    <!-- Input field -->
-                    <input type="text" id="searchInput"
-                        class="relative w-full pl-12 pr-6 py-3.5 bg-transparent rounded-full focus:outline-none text-gray-800 placeholder-gray-500 transition-all duration-300"
-                        placeholder="Search prompts...">
+                    <input type="text" id="searchInput" class="relative w-full pl-12 pr-6 py-3.5 bg-transparent rounded-full focus:outline-none text-gray-800 placeholder-gray-500 transition-all duration-300" placeholder="Search prompts...">
                 </div>
             </div>
+        </div>
 
-            <style>
-                @keyframes gradient-flow {
-                    0% {
-                        background: linear-gradient(90deg,
-                                transparent 0%,
-                                rgba(96, 165, 250, 0.3) 25%,
-                                rgba(167, 139, 250, 0.3) 50%,
-                                rgba(248, 113, 113, 0.3) 75%,
-                                transparent 100%);
-                        background-position: 200% 0;
-                    }
+        <!-- RIGHT: Stats Grid (Centered in 50% width, Icons Left - Text Right) -->
+        <div class="w-full xl:w-1/2 flex justify-center h-full items-center">
+            <div class="grid grid-cols-4 gap-3 w-full max-w-2xl">
+                
+                <!-- Stat 1: Total Components -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-purple-100/50 flex items-center justify-center flex-shrink-0 text-purple-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="totalCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Total</p>
+                    </div>
+                </div>
 
-                    50% {
-                        background: linear-gradient(90deg,
-                                transparent 0%,
-                                rgba(248, 113, 113, 0.3) 25%,
-                                rgba(96, 165, 250, 0.3) 50%,
-                                rgba(167, 139, 250, 0.3) 75%,
-                                transparent 100%);
-                        background-position: -200% 0;
-                    }
+                <!-- Stat 2: Categories -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-emerald-100/50 flex items-center justify-center flex-shrink-0 text-emerald-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="categoryCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Types</p>
+                    </div>
+                </div>
 
-                    100% {
-                        background: linear-gradient(90deg,
-                                transparent 0%,
-                                rgba(167, 139, 250, 0.3) 25%,
-                                rgba(248, 113, 113, 0.3) 50%,
-                                rgba(96, 165, 250, 0.3) 75%,
-                                transparent 100%);
-                        background-position: 200% 0;
-                    }
-                }
+                <!-- Stat 3: Tags -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-blue-100/50 flex items-center justify-center flex-shrink-0 text-blue-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="tagCount" class="text-lg font-bold text-gray-800 leading-none">0</h3>
+                        <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Tags</p>
+                    </div>
+                </div>
 
-                @keyframes border-glow {
-                    0% {
-                        box-shadow:
-                            0 0 0 2px rgba(96, 165, 250, 0.2),
-                            0 0 20px rgba(96, 165, 250, 0.15),
-                            0 0 40px rgba(96, 165, 250, 0.1),
-                            inset 0 0 20px rgba(255, 255, 255, 0.5);
-                    }
+                <!-- Stat 4: Last Updated -->
+                <div class="stat-row-item bg-white/40 border border-white/50 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-white/60 transition-all cursor-default">
+                    <!-- Left Icon -->
+                    <div class="w-8 h-8 rounded-lg bg-amber-100/50 flex items-center justify-center flex-shrink-0 text-amber-500 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Right Text -->
+                    <div class="flex flex-col items-end text-right">
+                        <h3 id="lastUpdated" class="text-sm font-bold text-gray-800 leading-tight">-</h3>
+                        <!-- <p class="text-[10px] uppercase tracking-wide text-gray-500 mt-1">Time</p> -->
+                    </div>
+                </div>
 
-                    33% {
-                        box-shadow:
-                            0 0 0 2px rgba(167, 139, 250, 0.2),
-                            0 0 20px rgba(167, 139, 250, 0.15),
-                            0 0 40px rgba(167, 139, 250, 0.1),
-                            inset 0 0 20px rgba(255, 255, 255, 0.5);
-                    }
+            </div>
+        </div>
+    </div>
 
-                    66% {
-                        box-shadow:
-                            0 0 0 2px rgba(248, 113, 113, 0.2),
-                            0 0 20px rgba(248, 113, 113, 0.15),
-                            0 0 40px rgba(248, 113, 113, 0.1),
-                            inset 0 0 20px rgba(255, 255, 255, 0.5);
-                    }
-
-                    100% {
-                        box-shadow:
-                            0 0 0 2px rgba(96, 165, 250, 0.2),
-                            0 0 20px rgba(96, 165, 250, 0.15),
-                            0 0 40px rgba(96, 165, 250, 0.1),
-                            inset 0 0 20px rgba(255, 255, 255, 0.5);
-                    }
-                }
-
-                @keyframes icon-pulse {
-
-                    0%,
-                    100% {
-                        background: rgba(96, 165, 250, 0.15);
-                        transform: scale(0.95);
-                    }
-
-                    33% {
-                        background: rgba(167, 139, 250, 0.15);
-                        transform: scale(1.05);
-                    }
-
-                    66% {
-                        background: rgba(248, 113, 113, 0.15);
-                        transform: scale(1.05);
-                    }
-                }
-
-                @keyframes icon-glow {
-                    0% {
-                        filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
-                        color: rgba(96, 165, 250, 0.9);
-                    }
-
-                    33% {
-                        filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.6));
-                        color: rgba(167, 139, 250, 0.9);
-                    }
-
-                    66% {
-                        filter: drop-shadow(0 0 4px rgba(248, 113, 113, 0.6));
-                        color: rgba(248, 113, 113, 0.9);
-                    }
-
-                    100% {
-                        filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
-                        color: rgba(96, 165, 250, 0.9);
-                    }
-                }
-
-                .animate-gradient-flow {
-                    animation: gradient-flow 10s linear infinite;
-                    background-size: 300% 100%;
-                }
-
-                .animate-border-glow {
-                    animation: border-glow 8s ease-in-out infinite;
-                }
-
-                .animate-icon-pulse {
-                    animation: icon-pulse 8s ease-in-out infinite;
-                }
-
-                .animate-icon-glow {
-                    animation: icon-glow 8s ease-in-out infinite;
-                }
-
-                /* Focus effects */
-                #searchInput:focus {
-                    background-color: rgba(255, 255, 255, 0.4);
-                }
-
-                #searchInput:focus+.animate-border-glow {
-                    animation-duration: 4s;
-                    animation-timing-function: ease-out;
-                }
-
-                /* Hover effects */
-                .animate-border-glow:hover {
-                    animation-duration: 5s;
-                }
-
-                /* Placeholder styling */
-                #searchInput::placeholder {
-                    color: rgba(107, 114, 128, 0.7);
-                    transition: all 0.3s ease;
-                }
-
-                #searchInput:focus::placeholder {
-                    color: rgba(107, 114, 128, 0.4);
-                    transform: translateX(5px);
-                }
-
-                /* Smooth transitions for all animated elements */
-                .animate-gradient-flow,
-                .animate-border-glow,
-                .animate-icon-pulse,
-                .animate-icon-glow {
-                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-                }
-
-                /* Subtle pulse on hover */
-                #searchInput:hover~.animate-gradient-flow {
-                    opacity: 0.3;
-                }
-            </style>
-
-
-
-            <!-- Cards Grid -->
-            <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Loading skeleton -->
-                <div class="col-span-full">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div class="glass-card p-4 animate-pulse">
-                            <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                            <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                            <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                            <div class="flex justify-between">
-                                <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                <div class="h-6 bg-gray-200 rounded w-6"></div>
-                            </div>
+    <!-- Cards Container with Scroll (Below Search & Stats) -->
+    <div id="cardsContainer" class="max-h-[70vh] overflow-y-auto thin-scrollbar p-5 mt-6">
+        <!-- Cards Grid -->
+        <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Loading skeleton -->
+            <div class="col-span-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
                         </div>
-                        <div class="glass-card p-4 animate-pulse">
-                            <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                            <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                            <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                            <div class="flex justify-between">
-                                <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                <div class="h-6 bg-gray-200 rounded w-6"></div>
-                            </div>
+                    </div>
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
                         </div>
-                        <div class="glass-card p-4 animate-pulse">
-                            <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                            <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
-                            <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-                            <div class="flex justify-between">
-                                <div class="h-6 bg-gray-200 rounded w-20"></div>
-                                <div class="h-6 bg-gray-200 rounded w-6"></div>
-                            </div>
+                    </div>
+                    <div class="glass-card p-4 animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+                        <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="h-6 bg-gray-200 rounded w-20"></div>
+                            <div class="h-6 bg-gray-200 rounded w-6"></div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Empty State -->
-            <div id="emptyState" class="hidden col-span-full py-12 text-center">
-                <div class="text-gray-300 mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">No designs found</h3>
-                <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Try adjusting your search or add your first
-                    design component</p>
-                <button id="addFirstBtn" class="btn-compact btn-primary px-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Add Design
-                </button>
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden col-span-full py-12 text-center">
+            <div class="text-gray-300 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
             </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">No designs found</h3>
+            <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">Try adjusting your search or add your first design component</p>
+            <button id="addFirstBtn" class="btn-compact btn-primary px-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                Add Design
+            </button>
         </div>
     </div>
+</div>
+
+<style>
+    /* Styles for the one-row stat items */
+    .stat-row-item {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+
+    .stat-row-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border-color: rgba(255,255,255,0.8);
+    }
+</style>
 
     <!-- Modal -->
     <div id="componentModal" class="popup-overlay">
